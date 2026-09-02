@@ -1282,10 +1282,10 @@ a.footer-brand-tag:hover{color:#ffcb56;}
                 <button class="btn-primary" style="flex:1;padding:9px" onclick="captureAndScanFace()">🎯 Capture Face</button>
               </div>
               <div id="faceScanResult" style="margin-top:12px;display:none">
-                <div style="font-size:12px;font-weight:700;color:rgba(42,24,0,.55);margin-bottom:8px;letter-spacing:.7px">FACE METRICS DETECTED</div>
+                <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:8px;letter-spacing:.7px">FACE METRICS DETECTED</div>
                 <div class="face-metrics" id="faceMetricsGrid"></div>
                 <div id="vectorPreview" style="margin-top:10px;display:none">
-                  <div style="font-size:11px;font-weight:700;color:rgba(42,24,0,.45);margin-bottom:6px">128-D FACE VECTOR (preview)</div>
+                  <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.35);margin-bottom:6px">128-D FACE VECTOR (preview)</div>
                   <div id="vectorBars" style="display:flex;align-items:flex-end;gap:1.5px;height:38px;background:rgba(0,0,0,.3);padding:4px;border-radius:8px"></div>
                 </div>
               </div>
@@ -1520,7 +1520,7 @@ a.footer-brand-tag:hover{color:#ffcb56;}
       <div class="gate-container">
         <div class="gate-visual" id="gateVisual">🚪</div>
         <div style="width:100%">
-          <div style="font-size:12px;font-weight:700;color:rgba(42,24,0,.45);text-align:center;margin-bottom:10px;letter-spacing:1px">ENTER VOTER ID</div>
+          <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.35);text-align:center;margin-bottom:10px;letter-spacing:1px">ENTER VOTER ID</div>
           <input type="text" id="gateIdInput" class="gate-id-input" placeholder="VOT-XXXXXXXX" maxlength="12" onkeyup="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkGateEntry()"/>
         </div>
         <button class="btn-primary" style="width:100%;padding:14px" onclick="checkGateEntry()">🔍 Verify & Open Gate</button>
@@ -1673,7 +1673,7 @@ a.footer-brand-tag:hover{color:#ffcb56;}
       <button class="btn-primary" style="width:100%;margin-bottom:10px" onclick="connectBle()">🔗 Connect via Web Bluetooth</button>
       <button class="btn-secondary" style="width:100%" onclick="disconnectBle()">⛓️ Disconnect</button>
       <div style="margin-top:18px;padding:12px;border-radius:var(--r);background:rgba(26,5,8,.04);border:1px solid rgba(26,5,8,.08)">
-        <div style="font-size:11px;font-weight:700;color:rgba(42,24,0,.4);margin-bottom:4px">EXPECTED SERVICE UUID</div>
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.3);margin-bottom:4px">EXPECTED SERVICE UUID</div>
         <div style="font-family:'Courier New',monospace;font-size:12px;color:var(--orange)">12345678-1234-1234-1234-123456789012</div>
       </div>
     </div>
@@ -1713,7 +1713,7 @@ a.footer-brand-tag:hover{color:#ffcb56;}
       <div class="modal-close" onclick="closeKnnModal()">✕</div>
     </div>
     <div class="modal-body">
-      <p style="font-size:12.5px;color:rgba(42,24,0,.55);margin-bottom:14px;line-height:1.5">2D PCA projection of all registered 128-D face vectors. Each voter is a coloured cluster. <b style="color:var(--orange)">Greater separation = easier KNN identification.</b> Distances shown are Euclidean; &lt; 0.55 = match.</p>
+      <p style="font-size:12.5px;color:rgba(255,255,255,.45);margin-bottom:14px;line-height:1.5">2D PCA projection of all registered 128-D face vectors. Each voter is a coloured cluster. <b style="color:var(--orange)">Greater separation = easier KNN identification.</b> Distances shown are Euclidean; &lt; 0.55 = match.</p>
       <div class="knn-canvas-wrap">
         <canvas id="knnCanvasModal" width="640" height="360" style="width:100%;display:block"></canvas>
       </div>
@@ -1840,7 +1840,7 @@ function switchAdmin(view){
   if(view==='stats') renderStats();
   if(view==='knn'){ renderKnnMap(); renderKnnDistTable(); }
   if(view==='attendance') renderAttendance();
-  if(view==='create'){ generateVoterId(); closeRegisterCam(); clearFaceScanResult(); }
+  if(view==='create') generateVoterId();
 }
 
 // User mode panels
@@ -1900,21 +1900,15 @@ async function ensureFaceApi(){
 let regStream=null, regCamFacing='user', regDescriptor=null;
 async function openRegisterCam(){
   await ensureFaceApi();
-  // Always fully stop any existing stream before opening new one
-  if(regStream){ regStream.getTracks().forEach(t=>t.stop()); regStream=null; }
-  const vid=document.getElementById('registerVideo');
-  vid.srcObject=null; // Force browser to release the previous feed
-  regDescriptor=null;
-  clearFaceScanResult();
+  if(regStream) regStream.getTracks().forEach(t=>t.stop());
   try{
     regStream = await navigator.mediaDevices.getUserMedia({video:{facingMode:regCamFacing,width:640,height:480},audio:false});
+    const vid=document.getElementById('registerVideo');
     vid.srcObject=regStream;
-    // Clear the canvas so previous voter's face doesn't show
-    const canvas=document.getElementById('registerCanvas');
-    const ctx=canvas.getContext('2d');
-    ctx.clearRect(0,0,canvas.width,canvas.height);
     document.getElementById('regScanLine').style.display='block';
     document.getElementById('regCamMsg').textContent='Position your face in the frame. Click "Capture Face".';
+    regDescriptor=null;
+    clearFaceScanResult();
   }catch(e){
     showToast('Camera Error','Cannot access camera: '+e.message,'error');
   }
@@ -1924,17 +1918,11 @@ async function switchRegisterCam(){
   await openRegisterCam();
 }
 function closeRegisterCam(){
-  if(regStream){ regStream.getTracks().forEach(t=>t.stop()); regStream=null; }
-  const vid=document.getElementById('registerVideo');
-  vid.srcObject=null;
-  vid.load(); // reset video element completely
-  // Clear canvas so previous voter photo is wiped
-  const canvas=document.getElementById('registerCanvas');
-  const ctx=canvas.getContext('2d');
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if(regStream) regStream.getTracks().forEach(t=>t.stop());
+  regStream=null;
+  document.getElementById('registerVideo').srcObject=null;
   document.getElementById('regScanLine').style.display='none';
   document.getElementById('regCamMsg').textContent='Camera not started. Click "Open Cam" below.';
-  regDescriptor=null;
 }
 
 async function captureAndScanFace(){
@@ -2076,7 +2064,7 @@ function resetCreateForm(){
   document.getElementById('vGender').value='';
   regDescriptor=null;
   clearFaceScanResult();
-  closeRegisterCam(); // this also clears canvas and descriptor
+  closeRegisterCam();
   generateVoterId();
 }
 
@@ -2355,20 +2343,20 @@ function renderVoteCandidates(){
   const nav=document.getElementById('slideNav');
   const dotWrap=document.getElementById('slideDots');
   if(!STATE.candidates.length){
-    wrap.innerHTML='<div style="color:rgba(42,24,0,.35);font-size:13px;text-align:center;padding:30px">No candidates. Admin must add candidates.</div>';
+    wrap.innerHTML='<div style="color:rgba(255,255,255,.3);font-size:13px;text-align:center;padding:30px">No candidates. Admin must add candidates.</div>';
     nav.style.display='none'; return;
   }
   const chunks=[];
   for(let i=0;i<STATE.candidates.length;i+=3) chunks.push(STATE.candidates.slice(i,i+3));
   wrap.innerHTML=chunks.map((chunk,si)=>`
     <div class="slide${si===0?' active':''}" id="slide${si}">
-      <div class="slide-header" style="color:rgba(26,5,8,.6)"><span>Slide ${si+1} of ${chunks.length}</span><span style="color:#cc3300">Press 🔘 1, 🔘 2 or 🔘 3</span></div>
+      <div class="slide-header"><span>Slide ${si+1} of ${chunks.length}</span><span style="color:var(--rasp)">Press 🔘 1, 🔘 2 or 🔘 3</span></div>
       <div class="candidates-3">
         ${chunk.map((c,ci)=>`
           <div class="vote-candidate-card${voterFaceVerified?'':' locked'}" onclick="${voterFaceVerified?`castVote('${c.id}')`:'showToast(\"Locked\",\"Verify face first.\",\"error\")'}" style="border-color:${c.color}33">
             <div class="push-btn-num" style="color:${c.color};border-color:${c.color}">${ci+1}</div>
-            <div style="font-size:14px;font-weight:700;color:#1a0508;margin-bottom:3px">${c.name}</div>
-            <div style="font-size:11px;color:rgba(26,5,8,.5)">${c.party}</div>
+            <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:3px">${c.name}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4)">${c.party}</div>
             ${voterFaceVerified?`<div style="margin-top:8px;font-size:10px;font-weight:700;color:${c.color};opacity:.7">PRESS BTN ${ci+1} TO VOTE</div>`:''}
           </div>`).join('')}
       </div>
@@ -2489,7 +2477,7 @@ function declareResults(){
   banner.style.display='block';
   banner.innerHTML=`<div class="results-banner">
     <div style="font-size:32px;margin-bottom:8px">🏆</div>
-    <div style="font-size:13px;font-weight:700;color:rgba(42,24,0,.55);margin-bottom:6px">WINNER DECLARED</div>
+    <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:6px">WINNER DECLARED</div>
     <div class="winner-name">${winner.name}</div>
     <div class="winner-votes">${winner.party} · ${winner.votes} vote${winner.votes!==1?'s':''}</div>
   </div>`;
@@ -2515,10 +2503,10 @@ function renderAttendance(){
   empty.style.display='none';
   tbody.innerHTML=STATE.attendanceLog.map((l,i)=>`
     <tr>
-      <td style="color:rgba(26,5,8,.4)">${i+1}</td>
-      <td style="font-weight:700;color:#1a0508">${l.voterName}</td>
+      <td style="color:rgba(255,255,255,.3)">${i+1}</td>
+      <td style="font-weight:700;color:#fff">${l.voterName}</td>
       <td><span style="font-family:'Orbitron',monospace;font-size:11px;color:var(--rasp)">${l.voterId}</span></td>
-      <td style="color:#1a6b44;font-weight:600">${l.votedFor}</td>
+      <td style="color:var(--cel2)">${l.votedFor}</td>
       <td><span style="padding:2px 8px;border-radius:50px;font-size:10.5px;font-weight:700;background:${l.gender==='Female'?'rgba(221,45,74,.15)':'rgba(93,162,113,.15)'};color:${l.gender==='Female'?'#ff8fa3':'var(--cel2)'}">${l.gender}</span></td>
       <td style="font-family:'Orbitron',monospace;font-size:11.5px">${l.time}</td>
       <td>${l.date}</td>
@@ -2611,7 +2599,7 @@ function renderKnnDistTable(){
   const wrap=document.getElementById('knnDistTable');
   if(!wrap) return;
   const voters=STATE.voters.filter(v=>v.descriptor);
-  if(voters.length<2){ wrap.innerHTML='<div style="color:rgba(42,24,0,.35);padding:20px;text-align:center">Need at least 2 voters with face data to show distances.</div>'; return; }
+  if(voters.length<2){ wrap.innerHTML='<div style="color:rgba(255,255,255,.3);padding:20px;text-align:center">Need at least 2 voters with face data to show distances.</div>'; return; }
   let html='<table class="voter-table"><thead><tr><th>Voter A</th><th>Voter B</th><th>Distance</th><th>Status</th></tr></thead><tbody>';
   for(let a=0;a<voters.length;a++){
     for(let b=a+1;b<voters.length;b++){
