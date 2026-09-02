@@ -2184,11 +2184,6 @@ function checkGateEntry(){
   const gateViz=document.getElementById('gateVisual');
   const statusMsg=document.getElementById('gateStatusMsg');
   const infoDiv=document.getElementById('gateVoterInfo');
-  // Clear previous voter info display on every new entry attempt
-  infoDiv.style.display='none';
-  infoDiv.innerHTML='';
-  gateViz.className='gate-visual';
-  gateViz.textContent='🚪';
   if(voter){
     // ─── ALREADY VOTED — hard block ───
     if(voter.hasVoted){
@@ -2315,18 +2310,12 @@ function closeVoteCam(){
 async function runVoteFaceVerify(){
   if(!currentVoter||!currentVoter.descriptor){ showToast('No Face Data','This voter has no registered face.','error'); return; }
   if(!faceApiReady){ showToast('AI Loading','Wait for models.','info'); return; }
-  // ── 5-second countdown before capture ──
-  const msgEl = document.getElementById('voteCamMsg');
-  for(let s=5;s>=1;s--){
-    msgEl.textContent='📸 Hold still… capturing in '+s+'s';
-    await new Promise(r=>setTimeout(r,1000));
-  }
-  msgEl.textContent='🔍 Verifying…';
   const vid=document.getElementById('voteVideo');
   const canvas=document.getElementById('voteCanvas');
   const ctx=canvas.getContext('2d');
   canvas.width=vid.videoWidth||640; canvas.height=vid.videoHeight||480;
   ctx.drawImage(vid,0,0,canvas.width,canvas.height);
+  document.getElementById('voteCamMsg').textContent='🔍 Verifying…';
   try{
     const detection=await faceapi
       .detectSingleFace(canvas, new faceapi.TinyFaceDetectorOptions({inputSize:320,scoreThreshold:0.4}))
