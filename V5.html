@@ -194,6 +194,7 @@ body{font-family:'Lexend',sans-serif;background:var(--bg-page,linear-gradient(13
 .landing-logo-img{
   height:56px;width:auto;display:block;
   filter:brightness(1.2);transition:transform .3s;
+  animation:float 4s ease-in-out infinite;
 }
 .landing-logo-fallback{
   height:56px;padding:0 22px;
@@ -651,145 +652,89 @@ body{font-family:'Lexend',sans-serif;background:var(--bg-page,linear-gradient(13
 
 /* Footer */
 footer{
-  background:linear-gradient(160deg,#0d1117 0%,#161b27 50%,#0a0e18 100%);
-  border-top:2px solid rgba(99,120,255,.25);padding:0;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#2a1800 0%,#3d2400 40%,#1a1000 100%);
+  border-top:3px solid #ffcb56;padding:0;position:relative;overflow:hidden;
 }
 footer::before{
   content:'';position:absolute;top:0;left:0;right:0;bottom:0;
-  background:radial-gradient(ellipse at 15% 50%,rgba(99,120,255,.07),transparent 55%),
-             radial-gradient(ellipse at 85% 50%,rgba(168,85,247,.05),transparent 55%);
+  background:radial-gradient(ellipse at 20% 50%,rgba(255,203,86,.08),transparent 60%),
+             radial-gradient(ellipse at 80% 50%,rgba(255,162,89,.06),transparent 60%);
   pointer-events:none;
 }
 .footer-rainbow{
-  height:3px;
-  background:linear-gradient(90deg,#6378ff,#a855f7,#ec4899,#f97316,#a855f7,#6378ff);
-  background-size:200%;animation:rainbowBar 5s linear infinite;
+  height:4px;
+  background:linear-gradient(90deg,#ffedb9,#ffcb56,#ffa259,#ff7e7e,#ffa259,#ffcb56,#ffedb9);
+  background-size:200%;animation:rainbowBar 4s linear infinite;
 }
 .footer-main{
-  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;
-  padding:32px 48px 24px;position:relative;z-index:1;
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;
+  padding:50px 48px 36px;position:relative;z-index:1;
 }
 .footer-brand-col{}
 .footer-brand-logo{
-  display:flex;align-items:center;gap:10px;margin-bottom:10px;transition:opacity .2s;
+  display:flex;align-items:center;gap:12px;margin-bottom:14px;transition:opacity .2s;
 }
 .footer-brand-logo:hover{opacity:.85;}
 .footer-brand-icon{
-  width:36px;height:36px;border-radius:10px;
-  background:linear-gradient(135deg,#6378ff,#a855f7);
-  display:flex;align-items:center;justify-content:center;font-size:18px;
-  box-shadow:0 3px 12px rgba(99,120,255,.35);flex-shrink:0;
+  width:44px;height:44px;border-radius:12px;
+  background:linear-gradient(135deg,#ffcb56,#ffa259);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  box-shadow:0 4px 16px rgba(255,203,86,.3);flex-shrink:0;
 }
 .footer-brand-name{
-  font-family:'Lexend',sans-serif;font-size:18px;font-weight:800;
-  background:linear-gradient(135deg,#818cf8,#c084fc);
+  font-family:'Lexend',sans-serif;font-size:22px;font-weight:800;
+  background:linear-gradient(135deg,#ffcb56,#ffa259);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
-.footer-logo-img{height:24px;width:auto;display:block;filter:brightness(0) invert(1);opacity:.7;transition:opacity .2s;}
-.footer-logo-img:hover{opacity:1;}
-.footer-brand-tag{font-size:10px;color:rgba(200,210,255,.35);font-weight:600;letter-spacing:1.5px;text-transform:uppercase;display:block}
-a.footer-brand-tag:hover{color:#818cf8;}
+.footer-brand-tag{font-size:11px;color:rgba(255,220,150,.5);font-weight:600;letter-spacing:1.5px;text-transform:uppercase;display:block}
+a.footer-brand-tag:hover{color:#ffcb56;}
 .footer-brand-desc{
-  font-size:12px;color:rgba(200,210,255,.45);line-height:1.65;font-weight:400;
-  max-width:240px;margin-bottom:14px;
+  font-size:13px;color:rgba(255,220,150,.6);line-height:1.7;font-weight:400;
+  max-width:260px;margin-bottom:20px;
 }
-.footer-tech-badges{display:flex;flex-wrap:wrap;gap:6px}
+.footer-tech-badges{display:flex;flex-wrap:wrap;gap:7px}
 .footer-tech-badge{
-  padding:3px 9px;border-radius:50px;
-  font-size:10px;font-weight:700;letter-spacing:.4px;
-  background:rgba(99,120,255,.1);border:1px solid rgba(99,120,255,.2);
-  color:rgba(180,190,255,.7);
+  padding:4px 10px;border-radius:50px;
+  font-size:10.5px;font-weight:700;letter-spacing:.5px;
+  background:rgba(255,203,86,.12);border:1px solid rgba(255,203,86,.25);
+  color:rgba(255,220,150,.8);
 }
 .footer-col-head{
-  font-family:'Lexend',sans-serif;font-size:11px;font-weight:700;
-  color:#818cf8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;
+  font-family:'Lexend',sans-serif;font-size:12px;font-weight:700;
+  color:#ffcb56;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;
 }
-.footer-col-links{display:flex;flex-direction:column;gap:8px}
+.footer-col-links{display:flex;flex-direction:column;gap:10px}
 .footer-col-link{
-  font-size:12.5px;color:rgba(200,210,255,.45);font-weight:500;
+  font-size:13px;color:rgba(255,220,150,.6);font-weight:500;
   text-decoration:none;cursor:pointer;transition:all .2s;
-  display:flex;align-items:center;gap:6px;
+  display:flex;align-items:center;gap:7px;
 }
-.footer-col-link:hover{color:#818cf8;transform:translateX(4px)}
-.footer-col-link::before{content:'→';font-size:10px;opacity:0;transition:opacity .2s}
+.footer-col-link:hover{color:#ffcb56;transform:translateX(4px)}
+.footer-col-link::before{content:'→';font-size:11px;opacity:0;transition:opacity .2s}
 .footer-col-link:hover::before{opacity:1}
 .footer-contact-item{
-  display:flex;align-items:flex-start;gap:9px;margin-bottom:10px;
+  display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;
 }
-.footer-contact-icon{font-size:14px;flex-shrink:0;margin-top:1px}
-.footer-contact-text{font-size:12px;color:rgba(200,210,255,.45);line-height:1.5}
-.footer-contact-text a{color:#818cf8;text-decoration:none;font-weight:600}
+.footer-contact-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.footer-contact-text{font-size:12.5px;color:rgba(255,220,150,.6);line-height:1.5}
+.footer-contact-text a{color:#ffcb56;text-decoration:none;font-weight:600}
 .footer-contact-text a:hover{text-decoration:underline}
 .footer-bottom{
-  border-top:1px solid rgba(99,120,255,.1);
-  padding:12px 48px;display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:8px;position:relative;z-index:1;
+  border-top:1px solid rgba(255,203,86,.15);
+  padding:18px 48px;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;position:relative;z-index:1;
 }
-.footer-copy{font-size:11px;color:rgba(200,210,255,.3);font-weight:500}
-.footer-copy strong{color:rgba(200,210,255,.55)}
-.footer-bottom-links{display:flex;gap:16px}
-.footer-bottom-link{font-size:11px;color:rgba(200,210,255,.3);font-weight:600;cursor:pointer;transition:color .2s;text-decoration:none}
-.footer-bottom-link:hover{color:#818cf8}
+.footer-copy{font-size:12px;color:rgba(255,220,150,.4);font-weight:500}
+.footer-copy strong{color:rgba(255,220,150,.7)}
+.footer-bottom-links{display:flex;gap:20px}
+.footer-bottom-link{font-size:11.5px;color:rgba(255,220,150,.4);font-weight:600;cursor:pointer;transition:color .2s;text-decoration:none}
+.footer-bottom-link:hover{color:#ffcb56}
 .footer-made-by{
-  font-size:11px;color:rgba(200,210,255,.3);font-weight:500;
-  display:flex;align-items:center;gap:5px;
+  font-size:12px;color:rgba(255,220,150,.35);font-weight:500;
+  display:flex;align-items:center;gap:6px;
 }
-.footer-made-by a{color:#a78bfa;text-decoration:none;font-weight:700}
-.footer-made-by a:hover{color:#818cf8}
-/* ── Voter ID Card styles ── */
-.id-card{
-  background:#fff;
-  border-radius:16px;
-  border:1.5px solid rgba(26,5,8,.1);
-  padding:0;
-  overflow:hidden;
-  box-shadow:0 2px 12px rgba(26,5,8,.07);
-  transition:transform .18s,box-shadow .18s;
-  position:relative;
-}
-.id-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(26,5,8,.13);}
-.id-card-header{
-  padding:14px 16px 10px;
-  display:flex;align-items:center;gap:12px;
-  border-bottom:1px solid rgba(26,5,8,.07);
-  background:linear-gradient(135deg,rgba(255,203,86,.12),rgba(255,162,89,.08));
-}
-.id-card-avatar{
-  width:48px;height:48px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:17px;font-weight:800;flex-shrink:0;
-  border:2.5px solid;
-}
-.id-card-name{font-size:14px;font-weight:800;color:#1a0508;line-height:1.2}
-.id-card-role{font-size:10.5px;color:rgba(26,5,8,.4);font-weight:600;margin-top:1px}
-.id-card-body{padding:12px 16px}
-.id-card-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(26,5,8,.05);font-size:12px}
-.id-card-row:last-child{border-bottom:none}
-.id-card-key{color:rgba(26,5,8,.4);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
-.id-card-val{color:#1a0508;font-weight:700;font-family:'Lexend',sans-serif;font-size:12px;text-align:right;max-width:160px;word-break:break-word}
-.id-card-footer{
-  padding:10px 16px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(26,5,8,.025);
-  border-top:1px solid rgba(26,5,8,.07);
-}
-.id-card-voted-strip{
-  position:absolute;top:10px;right:-22px;
-  background:#5da271;color:#fff;
-  font-size:9px;font-weight:800;letter-spacing:.8px;
-  padding:3px 30px;
-  transform:rotate(35deg);
-  transform-origin:top right;
-}
-.id-card-voted-strip.pending{background:rgba(26,5,8,.18);}
-[data-theme="dark"] .id-card{background:#1e1500;border-color:rgba(255,162,89,.15);}
-[data-theme="dark"] .id-card-header{background:linear-gradient(135deg,rgba(255,203,86,.07),rgba(255,162,89,.05));}
-[data-theme="dark"] .id-card-body .id-card-row{border-color:rgba(255,162,89,.08);}
-[data-theme="dark"] .id-card-name{color:#ffe8c0;}
-[data-theme="dark"] .id-card-key{color:rgba(255,220,160,.38);}
-[data-theme="dark"] .id-card-val{color:#ffe8c0;}
-[data-theme="dark"] .id-card-footer{background:rgba(255,162,89,.04);border-color:rgba(255,162,89,.1);}
-[data-theme="dark"] .id-card-row{border-color:rgba(255,162,89,.07);}
+.footer-made-by a{color:#ffa259;text-decoration:none;font-weight:700}
+.footer-made-by a:hover{color:#ffcb56}
 /* Legacy compat */
 .footer-inner{display:none}
 .footer-title,.footer-tagline,.footer-links,.footer-link,.footer-brand{}
@@ -909,7 +854,7 @@ a.footer-brand-tag:hover{color:#818cf8;}
 ══════════════════════════════════════ */
 /* Tablet */
 @media(max-width:900px){
-  .footer-main{grid-template-columns:1fr 1fr;gap:20px;padding:24px 24px 18px;}
+  .footer-main{grid-template-columns:1fr 1fr;gap:28px;padding:36px 28px 28px;}
   .stats-grid{grid-template-columns:1fr;}
   .form-grid{grid-template-columns:1fr;}
   .form-grid .full{grid-column:1;}
@@ -942,8 +887,8 @@ a.footer-brand-tag:hover{color:#818cf8;}
   /* Voter create grid */
   #avCreate>div{display:block !important;}
   /* Footer */
-  .footer-main{grid-template-columns:1fr;gap:18px;padding:20px 16px 16px;}
-  .footer-bottom{padding:10px 16px;flex-direction:column;align-items:flex-start;gap:6px;}
+  .footer-main{grid-template-columns:1fr;gap:24px;padding:28px 20px 20px;}
+  .footer-bottom{padding:14px 20px;flex-direction:column;align-items:flex-start;gap:8px;}
   /* Candidates */
   .candidates-3{grid-template-columns:1fr 1fr;}
   .stats-grid{grid-template-columns:1fr;}
@@ -1017,7 +962,7 @@ a.footer-brand-tag:hover{color:#818cf8;}
     <a href="https://www.cognospace.in" target="_blank" rel="noopener" class="landing-logo-area" style="text-decoration:none;cursor:pointer" title="Visit CognoSpace">
       <div class="landing-logo-label">Powered by</div>
       <div style="display:flex;align-items:center;gap:10px;padding:10px 20px;border-radius:14px;background:rgba(255,203,86,.12);border:1.5px solid rgba(255,162,89,.3);transition:all .25s;box-shadow:0 4px 16px rgba(255,162,89,.15);" onmouseover="this.style.background='rgba(255,203,86,.22)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,203,86,.12)';this.style.transform='translateY(0)'">
-        <img src="logo.png" alt="CognoSpace" class="landing-logo-img" style="height:40px;width:auto;display:block;" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex'"/>
+        <img src="logo.png" alt="CognoSpace" class="landing-logo-img" style="height:40px;width:auto;display:block;animation:float 4s ease-in-out infinite" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex'"/>
         <div id="logoFallback" class="landing-logo-fallback" style="display:none">🧬 CognoSpace</div>
         <span style="font-family:'Lexend',sans-serif;font-size:16px;font-weight:700;background:linear-gradient(135deg,#c07000,#d45000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></span>
       </div>
@@ -1089,16 +1034,11 @@ a.footer-brand-tag:hover{color:#818cf8;}
             <a href="https://www.cognospace.in" target="_blank" rel="noopener" class="footer-brand-tag" style="text-decoration:none">by CognoSpace ↗</a>
           </div>
         </a>
-        <!-- CognoSpace logo in footer -->
-        <a href="https://www.cognospace.in" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;margin-bottom:10px;opacity:.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'">
-          <img src="logo.png" alt="CognoSpace" class="footer-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"/>
-          <span style="display:none;font-size:12px;font-weight:700;color:#818cf8;">🧬 CognoSpace</span>
-        </a>
-        <p class="footer-brand-desc">Smart Voting Machine powered by Computer Vision, Facial Recognition & IoT — secure, transparent elections.</p>
+        <p class="footer-brand-desc">A next-generation Smart Automated Voting Machine powered by Computer Vision, Facial Recognition & IoT — making elections secure, transparent, and fraud-proof.</p>
         <div class="footer-tech-badges">
-          <span class="footer-tech-badge">🧠 AI Vision</span>
+          <span class="footer-tech-badge">🧠 CognoSpace Coggy</span>
           <span class="footer-tech-badge">📡 BLE</span>
-          <span class="footer-tech-badge">📐 KNN</span>
+          <span class="footer-tech-badge">📐 KNN Algorithm</span>
           <span class="footer-tech-badge">🔒 Secure</span>
         </div>
       </div>
@@ -1130,12 +1070,16 @@ a.footer-brand-tag:hover{color:#818cf8;}
         </div>
         <div class="footer-contact-item">
           <span class="footer-contact-icon">🚀</span>
-          <div class="footer-contact-text">Experiential Learning for young minds</div>
+          <div class="footer-contact-text">Experintial Learning for young minds</div>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon"></span>
+          <div class="footer-contact-text"></div>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy">© 2026 <strong>CognoSpace</strong>. All rights reserved. VisionVote is for educational purposes only.</div>
+      <div class="footer-copy">© 2026 <strong>CognoSpace</strong>. All rights reserved. VisionVote is for education purpose only</div>
       <div class="footer-made-by">Built with ❤️ by <a href="https://www.cognospace.in" target="_blank">CognoSpace</a></div>
     </div>
   </footer>
@@ -1233,9 +1177,8 @@ a.footer-brand-tag:hover{color:#818cf8;}
     <!-- Sidebar -->
     <div class="admin-sidebar">
       <div class="sb-head">Management</div>
-      <div class=\"sb-item active\" onclick=\"switchAdmin('voters')\" id=\"sbVoters\">👥 Voter Registry</div>
-      <div class=\"sb-item\" onclick=\"switchAdmin('idcards')\" id=\"sbIdcards\">🪪 ID Cards</div>
-      <div class=\"sb-item\" onclick=\"switchAdmin('create')\" id=\"sbCreate\">➕ Create Voter ID</div>
+      <div class="sb-item active" onclick="switchAdmin('voters')" id="sbVoters">👥 Voter Registry</div>
+      <div class="sb-item" onclick="switchAdmin('create')" id="sbCreate">➕ Create Voter ID</div>
       <div class="sb-item" onclick="switchAdmin('candidates')" id="sbCandidates">🎯 Candidates</div>
       <div class="sb-div"></div>
       <div class="sb-head">Analytics</div>
@@ -1274,29 +1217,6 @@ a.footer-brand-tag:hover{color:#818cf8;}
             <div id="voterTableEmpty" style="text-align:center;padding:40px;color:rgba(26,5,8,.4);font-weight:600">No voters registered yet. Click <b style="color:var(--rasp)">New Voter</b> to add one.</div>
           </div>
         </div>
-      </div>
-
-      <!-- ID CARDS VIEW -->
-      <div class="admin-view" id="avIdcards">
-        <div class="section-title">🪪 Voter ID Cards <span class="section-badge" id="idCardCountBadge">0 Cards</span></div>
-        <div class="card" style="margin-bottom:16px">
-          <div class="card-header">
-            <div class="card-title">All Registered Voter ID Cards</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-              <input id="idCardSearch" type="text" placeholder="🔍 Search name or ID…" oninput="renderIdCards()" style="padding:7px 12px;border-radius:8px;border:1.5px solid rgba(26,5,8,.12);font-size:13px;background:rgba(26,5,8,.03);font-family:inherit;width:200px">
-              <select id="idCardFilter" onchange="renderIdCards()" style="padding:7px 10px;border-radius:8px;border:1.5px solid rgba(26,5,8,.12);font-size:13px;background:rgba(26,5,8,.03);font-family:inherit">
-                <option value="all">All Voters</option>
-                <option value="voted">Voted ✅</option>
-                <option value="pending">Not Voted ⏳</option>
-                <option value="face">Face Registered</option>
-                <option value="noface">No Face ❌</option>
-              </select>
-              <button class="btn-secondary" onclick="printIdCards()" style="padding:7px 14px;font-size:12px">🖨️ Print All</button>
-            </div>
-          </div>
-        </div>
-        <div id="idCardsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;padding-bottom:24px"></div>
-        <div id="idCardsEmpty" style="display:none;text-align:center;padding:60px 20px;color:rgba(26,5,8,.35);font-weight:600;font-size:15px">No voters registered yet.<br><span style="font-size:13px;font-weight:400">Go to <b style="color:var(--rasp)">Create Voter ID</b> to add voters.</span></div>
       </div>
 
       <!-- CREATE VOTER -->
@@ -1913,15 +1833,14 @@ function goUserMode(){ goTo('userMode'); switchUserMode('gate'); }
 function switchAdmin(view){
   document.querySelectorAll('.admin-view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.sb-item').forEach(s=>s.classList.remove('active'));
-  const viewMap = {voters:'avVoters',idcards:'avIdcards',create:'avCreate',candidates:'avCandidates',stats:'avStats',attendance:'avAttendance',knn:'avKnn',servo:'avServo'};
-  const sbMap = {voters:'sbVoters',idcards:'sbIdcards',create:'sbCreate',candidates:'sbCandidates',stats:'sbStats',attendance:'sbAttendance',knn:'sbKnn',servo:'sbServo'};
+  const viewMap = {voters:'avVoters',create:'avCreate',candidates:'avCandidates',stats:'avStats',attendance:'avAttendance',knn:'avKnn',servo:'avServo'};
+  const sbMap = {voters:'sbVoters',create:'sbCreate',candidates:'sbCandidates',stats:'sbStats',attendance:'sbAttendance',knn:'sbKnn',servo:'sbServo'};
   if(viewMap[view]) document.getElementById(viewMap[view]).classList.add('active');
   if(sbMap[view]) document.getElementById(sbMap[view]).classList.add('active');
   if(view==='stats') renderStats();
   if(view==='knn'){ renderKnnMap(); renderKnnDistTable(); }
   if(view==='attendance') renderAttendance();
   if(view==='create'){ generateVoterId(); closeRegisterCam(); clearFaceScanResult(); }
-  if(view==='idcards') renderIdCards();
 }
 
 // User mode panels
@@ -2346,123 +2265,10 @@ function renderVoterTable(){
 function updateVoterCountBadge(){
   document.getElementById('voterCountBadge').textContent=STATE.voters.length+' Voters';
 }
-
-// ════════════════════════════════════
-//  VOTER ID CARDS VIEW
-// ════════════════════════════════════
-function renderIdCards(){
-  const grid=document.getElementById('idCardsGrid');
-  const empty=document.getElementById('idCardsEmpty');
-  const badge=document.getElementById('idCardCountBadge');
-  const search=(document.getElementById('idCardSearch')||{}).value||'';
-  const filter=(document.getElementById('idCardFilter')||{}).value||'all';
-  let voters=[...STATE.voters];
-  // Filter
-  if(filter==='voted')   voters=voters.filter(v=>v.hasVoted);
-  if(filter==='pending') voters=voters.filter(v=>!v.hasVoted);
-  if(filter==='face')    voters=voters.filter(v=>v.descriptor);
-  if(filter==='noface')  voters=voters.filter(v=>!v.descriptor);
-  // Search
-  if(search.trim()){
-    const q=search.trim().toUpperCase();
-    voters=voters.filter(v=>(v.name||'').toUpperCase().includes(q)||(v.voterId||'').includes(q)||(v.phone||'').includes(q));
-  }
-  badge.textContent=voters.length+' Cards';
-  if(!voters.length){ grid.innerHTML=''; empty.style.display='block'; return; }
-  empty.style.display='none';
-  grid.innerHTML=voters.map(v=>`
-    <div class="id-card">
-      <div class="id-card-voted-strip ${v.hasVoted?'':'pending'}">${v.hasVoted?'VOTED':'PENDING'}</div>
-      <div class="id-card-header">
-        <div class="id-card-avatar" style="background:${v.color}22;color:${v.color};border-color:${v.color}55">${v.initials}</div>
-        <div>
-          <div class="id-card-name">${v.name}</div>
-          <div class="id-card-role">${v.gender||'Voter'} &nbsp;·&nbsp; ${v.age?v.age+' yrs':''}</div>
-        </div>
-      </div>
-      <div class="id-card-body">
-        <div class="id-card-row">
-          <span class="id-card-key">Voter ID</span>
-          <span class="id-card-val" style="font-family:'Orbitron',monospace;color:var(--rasp);font-size:11.5px">${v.voterId}</span>
-        </div>
-        <div class="id-card-row">
-          <span class="id-card-key">Phone</span>
-          <span class="id-card-val">${v.phone||'—'}</span>
-        </div>
-        <div class="id-card-row">
-          <span class="id-card-key">Address</span>
-          <span class="id-card-val">${v.house?v.house+', ':''}${v.address||'—'}</span>
-        </div>
-        <div class="id-card-row">
-          <span class="id-card-key">Face</span>
-          <span class="id-card-val"><span class="face-badge ${v.descriptor?'yes':'no'}">${v.descriptor?'✅ Registered':'❌ Not set'}</span></span>
-        </div>
-        <div class="id-card-row">
-          <span class="id-card-key">Status</span>
-          <span class="id-card-val">${v.hasVoted
-            ?'<span style="color:var(--cel2);font-weight:800">✅ Voted — '+v.votedFor+'</span>'
-            :'<span style="color:rgba(26,5,8,.45)">⏳ Not voted yet</span>'}</span>
-        </div>
-      </div>
-      <div class="id-card-footer">
-        <span style="font-size:10px;color:rgba(26,5,8,.3);font-weight:600">🗳️ VisionVote</span>
-        <div style="display:flex;gap:6px">
-          <button class="btn-secondary" style="padding:4px 10px;font-size:11px" onclick="showVoterDetail('${v.id}')">👁 View</button>
-          <button class="btn-danger" style="padding:4px 10px;font-size:11px" onclick="deleteVoter('${v.id}')">🗑</button>
-        </div>
-      </div>
-    </div>`).join('');
-}
-
-function printIdCards(){
-  const voters=STATE.voters;
-  if(!voters.length){ alert('No voters to print.'); return; }
-  const w=window.open('','_blank','width=900,height=700');
-  w.document.write(`<!DOCTYPE html><html><head><title>VisionVote ID Cards</title>
-  <style>
-    body{font-family:Arial,sans-serif;background:#f5f5f5;padding:20px;margin:0}
-    h2{text-align:center;color:#880d1e;margin-bottom:20px}
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .card{background:#fff;border-radius:12px;border:1.5px solid #ddd;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-    .hdr{background:linear-gradient(135deg,#fff8e7,#ffecd0);padding:12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #eee}
-    .av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800}
-    .name{font-size:13px;font-weight:800;color:#1a0508}
-    .sub{font-size:10px;color:#888}
-    .body{padding:10px 12px}
-    .row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0;font-size:11px}
-    .key{color:#999;font-weight:600;text-transform:uppercase;font-size:9.5px}
-    .val{font-weight:700;color:#1a0508;text-align:right;max-width:160px}
-    .vid{font-family:monospace;color:#880d1e;font-size:11px}
-    .foot{background:#fafafa;padding:7px 12px;display:flex;justify-content:space-between;font-size:9px;color:#aaa;border-top:1px solid #eee}
-    .badge{padding:2px 7px;border-radius:20px;font-size:9px;font-weight:700}
-    .voted{background:#d4edda;color:#155724}
-    .pending{background:#f8d7da;color:#721c24}
-    @media print{body{background:#fff}.grid{grid-template-columns:repeat(3,1fr)}}
-  </style></head><body>
-  <h2>🗳️ VisionVote — Voter ID Cards</h2>
-  <div class="grid">${voters.map(v=>`
-    <div class="card">
-      <div class="hdr">
-        <div class="av" style="background:${v.color}22;color:${v.color};border:2px solid ${v.color}44">${v.initials}</div>
-        <div><div class="name">${v.name}</div><div class="sub">${v.gender||''} ${v.age?'· '+v.age+' yrs':''}</div></div>
-      </div>
-      <div class="body">
-        <div class="row"><span class="key">Voter ID</span><span class="val vid">${v.voterId}</span></div>
-        <div class="row"><span class="key">Phone</span><span class="val">${v.phone||'—'}</span></div>
-        <div class="row"><span class="key">Address</span><span class="val">${v.house?v.house+', ':''}${v.address||'—'}</span></div>
-        <div class="row"><span class="key">Status</span><span class="val"><span class="badge ${v.hasVoted?'voted':'pending'}">${v.hasVoted?'✅ VOTED':'⏳ PENDING'}</span></span></div>
-        ${v.hasVoted?`<div class="row"><span class="key">Voted For</span><span class="val">${v.votedFor}</span></div>`:''}
-      </div>
-      <div class="foot"><span>🗳️ VisionVote</span><span>${v.descriptor?'📷 Face OK':'❌ No Face'}</span></div>
-    </div>`).join('')}</div>
-  <script>window.onload=()=>window.print();<\/script>
-  </body></html>`);
-  w.document.close();
-}
 function deleteVoter(id){
   if(!confirm('Delete this voter? This cannot be undone.')) return;
   STATE.voters=STATE.voters.filter(v=>v.id!==id);
-  saveState(); renderVoterTable(); renderIdCards();
+  saveState(); renderVoterTable();
   showToast('Deleted','Voter removed.','info');
 }
 function showVoterDetail(id){
@@ -2591,14 +2397,13 @@ function checkGateEntry(){
     // Enable vote cam button for this new voter
     document.getElementById('openVoteCamBtn').disabled=false;
     updateVoteStep1();
-    // ── Immediately redirect to Cast Vote tab (800ms grace so voter sees welcome) ──
-    setTimeout(()=>{ switchUserMode('vote'); }, 800);
-    // Gate closes silently in background after 5s
     setTimeout(()=>{
       gateViz.className='gate-visual';gateViz.textContent='🚪';
       statusMsg.className='gate-status-msg idle';statusMsg.textContent='Gate closed. Proceed to vote.';
       setLedGreen(false);setOled('VisionVote Ready');
       sendBleCommand('GATE_CLOSE');
+      // Auto-switch to Cast Vote tab after gate closes
+      switchUserMode('vote');
     },5000);
     }else{
     currentVoter=null;voterFaceVerified=false;
