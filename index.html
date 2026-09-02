@@ -1773,11 +1773,10 @@ let currentVotingSlide = 0;
 let voteBarChartInst = null, genderChartInst = null, timelineChartInst = null;
 
 function goTo(page){
-  document.querySelectorAll('[id]').forEach(el=>{
-    if(['landing','adminLogin','adminPanel','userMode'].includes(el.id)){
-      el.style.display='none';
-      el.classList.remove('active');
-    }
+  // Only hide the 4 top-level page containers — NOT every element with an id
+  ['landing','adminLogin','adminPanel','userMode'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){ el.style.display='none'; el.classList.remove('active'); }
   });
   const el = document.getElementById(page);
   if(!el) return;
