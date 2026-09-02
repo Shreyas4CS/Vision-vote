@@ -550,8 +550,8 @@ body{font-family:'Lexend',sans-serif;background:var(--bg-page,linear-gradient(13
 }
 .vote-candidate-card::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.03);opacity:0;transition:opacity .2s}
 .vote-candidate-card:hover::before{opacity:1}
-.vote-candidate-card{cursor:default !important;}
-.vote-candidate-card:not(.locked):hover{transform:none;box-shadow:0 2px 8px rgba(26,5,8,.06)}
+.vote-candidate-card.locked{cursor:not-allowed;opacity:.45;filter:grayscale(.6)}
+.vote-candidate-card:not(.locked):hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.3)}
 .push-btn-num{
   width:44px;height:44px;border-radius:50%;margin:0 auto 10px;
   display:flex;align-items:center;justify-content:center;
@@ -1579,7 +1579,7 @@ a.footer-brand-tag:hover{color:#ffcb56;}
         <div class="card" id="voteStep3">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
             <div class="card-title">Step 3 — Cast Your Vote</div>
-            <div id="voteLockedBadge" style="padding:5px 12px;border-radius:50px;font-size:11.5px;font-weight:700;background:rgba(221,45,74,.15);color:#ff8fa3;border:1px solid rgba(221,45,74,.25)">📟 Use Device Buttons</div>
+            <div id="voteLockedBadge" style="padding:5px 12px;border-radius:50px;font-size:11.5px;font-weight:700;background:rgba(221,45,74,.15);color:#ff8fa3;border:1px solid rgba(221,45,74,.25)">🔒 Locked</div>
           </div>
           <div id="candidateSlides">
             <div style="color:rgba(26,5,8,.35);font-size:13px;text-align:center;padding:30px">No candidates added. Admin must add candidates first.</div>
@@ -1587,7 +1587,6 @@ a.footer-brand-tag:hover{color:#ffcb56;}
           <div class="nav-slides" id="slideNav" style="display:none">
             <button class="slide-nav-btn" onclick="prevSlide()">← Prev</button>
             <div id="slideDots"></div>
-            <div style="font-size:10px;font-weight:700;color:rgba(26,5,8,.4);letter-spacing:.5px;text-align:center">Long-press BTN1/BTN3<br>on device to slide</div>
             <button class="slide-nav-btn" onclick="nextSlide()">Next →</button>
           </div>
         </div>
@@ -2363,14 +2362,14 @@ function renderVoteCandidates(){
   for(let i=0;i<STATE.candidates.length;i+=3) chunks.push(STATE.candidates.slice(i,i+3));
   wrap.innerHTML=chunks.map((chunk,si)=>`
     <div class="slide${si===0?' active':''}" id="slide${si}">
-      <div class="slide-header" style="color:rgba(26,5,8,.6)"><span>Slide ${si+1} of ${chunks.length}</span><span style="color:#cc5500;font-weight:700">📟 Use physical buttons to vote</span></div>
+      <div class="slide-header" style="color:rgba(26,5,8,.6)"><span>Slide ${si+1} of ${chunks.length}</span><span style="color:#cc3300">Press 🔘 1, 🔘 2 or 🔘 3</span></div>
       <div class="candidates-3">
         ${chunk.map((c,ci)=>`
-          <div class="vote-candidate-card display-only" style="border-color:${c.color}33;cursor:default">
+          <div class="vote-candidate-card${voterFaceVerified?'':' locked'}" onclick="${voterFaceVerified?`castVote('${c.id}')`:'showToast(\"Locked\",\"Verify face first.\",\"error\")'}" style="border-color:${c.color}33">
             <div class="push-btn-num" style="color:${c.color};border-color:${c.color}">${ci+1}</div>
             <div style="font-size:14px;font-weight:700;color:#1a0508;margin-bottom:3px">${c.name}</div>
             <div style="font-size:11px;color:rgba(26,5,8,.5)">${c.party}</div>
-            `<div style="margin-top:8px;font-size:10px;font-weight:700;color:${c.color};letter-spacing:.5px;padding:4px 0">📟 PRESS BTN ${ci+1} ON DEVICE</div>`
+            ${voterFaceVerified?`<div style="margin-top:8px;font-size:10px;font-weight:700;color:${c.color};opacity:.7">PRESS BTN ${ci+1} TO VOTE</div>`:''}
           </div>`).join('')}
       </div>
     </div>`).join('');
@@ -2390,8 +2389,6 @@ function nextSlide(){ const chunks=Math.ceil(STATE.candidates.length/3); goSlide
 function prevSlide(){ const chunks=Math.ceil(STATE.candidates.length/3); goSlide((currentVotingSlide-1+chunks)%chunks); }
 
 function castVote(candId){
-  // Voting is ONLY via physical buttons (BLE notify). This function
-  // is called internally by castVoteByButtonIndex — never from card clicks.
   if(!voterFaceVerified){ showToast('Not Verified','Verify face first.','error'); return; }
   if(!currentVoter){ showToast('Error','No voter session.','error'); return; }
   if(currentVoter.hasVoted){ showToast('Already Voted','This voter has already voted.','error'); return; }
@@ -2673,36 +2670,8 @@ async function connectBle(){
     bleChar=await service.getCharacteristic(BLE_CHAR_UUID);
     updateBleUI(true);
     bleDevice.addEventListener('gattserverdisconnected',()=>{ updateBleUI(false); bleChar=null; });
-    // Listen for button events from ESP32
-    await bleChar.startNotifications();
-    bleChar.addEventListener('characteristicvaluechanged', handleBleNotify);
-    showToast('Connected','ESP32 connected via BLE! Buttons active.','success');
+    showToast('Connected','ESP32 connected via BLE!','success');
   }catch(e){ showToast('BLE Error',e.message,'error'); }
-}
-
-function handleBleNotify(event){
-  const cmd = new TextDecoder().decode(event.target.value).trim();
-  console.log('[BLE NOTIFY]', cmd);
-  if(cmd === 'BTN1_VOTE') castVoteByButtonIndex(0);
-  else if(cmd === 'BTN2_VOTE') castVoteByButtonIndex(1);
-  else if(cmd === 'BTN3_VOTE') castVoteByButtonIndex(2);
-  else if(cmd === 'BTN_PREV')  prevSlide();
-  else if(cmd === 'BTN_NEXT')  nextSlide();
-}
-
-// Cast vote by button slot index (0,1,2) on the currently visible slide
-function castVoteByButtonIndex(slotIndex){
-  if(!voterFaceVerified){
-    showToast('Not Verified','Face verify first.','error');
-    return;
-  }
-  // Find which candidates are on the current slide
-  const chunk = STATE.candidates.slice(currentVotingSlide*3, currentVotingSlide*3+3);
-  if(slotIndex >= chunk.length){
-    showToast('No Candidate','No candidate at button '+( slotIndex+1)+' on this slide.','error');
-    return;
-  }
-  castVote(chunk[slotIndex].id);
 }
 async function disconnectBle(){
   if(bleDevice && bleDevice.gatt.connected){ await bleDevice.gatt.disconnect(); }
