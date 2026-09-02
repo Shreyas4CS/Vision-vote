@@ -1846,7 +1846,8 @@ function switchAdmin(view){
 // User mode panels
 function switchUserMode(mode){
   if(mode==='vote' && !currentVoter){
-    // No popup — just pulse the gate tab as a visual hint
+    showToast('Gate Entry Required','You must complete Gate Entry verification before casting a vote.','error');
+    // Highlight the gate tab as a hint
     document.getElementById('mtGate').style.animation='pulseGlow .6s ease 2';
     setTimeout(()=>{ document.getElementById('mtGate').style.animation=''; },1200);
     return;
@@ -1957,191 +1958,37 @@ async function captureAndScanFace(){
       return;
     }
     regDescriptor = Array.from(detection.descriptor);
-    // Hide live scan line — frame is frozen now
-    document.getElementById('regScanLine').style.display='none';
-    // Animate face mesh drawing (dots + lines appear progressively)
-    document.getElementById('regCamMsg').textContent='🔬 Plotting 68 facial landmarks…';
     drawFaceBox(ctx, detection, canvas.width, canvas.height);
-    // Show metrics after a short delay to let animation start
-    setTimeout(()=>{
-      renderFaceScanResult(detection);
-      document.getElementById('regCamMsg').textContent='✅ Face mesh mapped! Fill details and Save.';
-    }, 400);
-    showToast('Face Captured!','Mapping facial landmarks…','success');
+    renderFaceScanResult(detection);
+    document.getElementById('regCamMsg').textContent='✅ Face captured! Fill details and Save.';
+    showToast('Face Captured!','Face data ready. Fill in the form and save.','success');
   }catch(e){
     showToast('Scan Error',e.message,'error');
   }
 }
 
-// ── Animated face-mesh drawing ──────────────────────────────
-// drawFaceBox: draws bounding box instantly, then animates all
-// 68 landmark points appearing one-by-one and progressively
-// draws connecting lines between groups (eyes, eyebrows, nose,
-// mouth, jaw) so the user sees the face being "scanned" live.
 function drawFaceBox(ctx, detection, w, h){
   const box = detection.detection.box;
-  const lms = detection.landmarks.positions; // 68 points
-
-  // ─── Facial feature groups ──────────────────────────────
-  const GROUPS = [
-    { pts: lms.slice(0, 17),  color: '#fea82f',     name: 'jaw',        close: false },
-    { pts: lms.slice(17, 22), color: '#a7d49b',     name: 'leftBrow',   close: false },
-    { pts: lms.slice(22, 27), color: '#a7d49b',     name: 'rightBrow',  close: false },
-    { pts: lms.slice(27, 36), color: '#dd2d4a',     name: 'noseBridge', close: false },
-    { pts: lms.slice(36, 42), color: '#a9e5bb',     name: 'leftEye',    close: true  },
-    { pts: lms.slice(42, 48), color: '#a9e5bb',     name: 'rightEye',   close: true  },
-    { pts: lms.slice(48, 60), color: '#5da271',     name: 'outerLip',   close: true  },
-    { pts: lms.slice(60, 68), color: '#a9e5bb',     name: 'innerLip',   close: true  },
-  ];
-
-  // ─── Draw bounding box immediately ─────────────────────
-  ctx.save();
-  ctx.strokeStyle = '#dd2d4a';
-  ctx.lineWidth   = 2.5;
-  ctx.setLineDash([6, 4]);
-  ctx.strokeRect(box.x, box.y, box.width, box.height);
-  ctx.setLineDash([]);
-  // Corner accent marks
-  const cs = 14; // corner size
-  ctx.lineWidth = 3;
-  const corners = [
-    [box.x, box.y],
-    [box.x + box.width, box.y],
-    [box.x, box.y + box.height],
-    [box.x + box.width, box.y + box.height]
-  ];
-  corners.forEach(([cx, cy], idx) => {
-    ctx.strokeStyle = '#ffcb56';
-    ctx.beginPath();
-    const dx = idx % 2 === 0 ? cs : -cs;
-    const dy = idx < 2 ? cs : -cs;
-    ctx.moveTo(cx + dx, cy); ctx.lineTo(cx, cy); ctx.lineTo(cx, cy + dy);
-    ctx.stroke();
+  const lms = detection.landmarks.positions;
+  // Box
+  ctx.strokeStyle='#dd2d4a';ctx.lineWidth=3;ctx.strokeRect(box.x,box.y,box.width,box.height);
+  // Landmarks
+  const gcol={jaw:'#fea82f',leftEye:'#a9e5bb',rightEye:'#a9e5bb',nose:'#dd2d4a',mouth:'#5da271',leftEyeBrow:'#a7d49b',rightEyeBrow:'#a7d49b'};
+  lms.forEach((pt,i)=>{
+    ctx.beginPath();ctx.arc(pt.x,pt.y,2,0,2*Math.PI);
+    ctx.fillStyle='rgba(221,45,74,.85)';ctx.fill();
   });
-  ctx.restore();
-
-  // ─── Build flat ordered point list for animation ────────
-  // We animate ALL 68 points appearing, then draw feature lines
-  // between them group by group.
-  const allPts = lms; // 0..67
-
-  // ─── Animation state ────────────────────────────────────
-  let pointIdx   = 0;    // how many landmark dots have appeared
-  let lineGroup  = -1;   // which feature group's polyline we're drawing
-  let lineEdge   = 0;    // how many edges of that group have been drawn
-  const POINT_INTERVAL = 18;   // ms between each dot appearing
-  const LINE_INTERVAL  = 28;   // ms between each line segment
-
-  // ─── Helper to draw a single dot ────────────────────────
-  function drawDot(pt, col, r = 2.5) {
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
-    ctx.fillStyle = col || 'rgba(221,45,74,.9)';
-    ctx.shadowColor = col || '#dd2d4a';
-    ctx.shadowBlur  = 6;
-    ctx.fill();
-    ctx.restore();
-  }
-
-  // ─── Helper: what color should landmark i be? ───────────
-  function dotColor(i) {
-    if (i <  17) return '#fea82f';
-    if (i <  27) return '#a7d49b';
-    if (i <  36) return '#dd2d4a';
-    if (i <  48) return '#a9e5bb';
-    return '#5da271';
-  }
-
-  // ─── Eye-to-eye connector drawn after both eye groups ───
-  function drawEyeLine() {
-    const le = lms.slice(36, 42);
-    const re = lms.slice(42, 48);
-    const lc = { x: le.reduce((a,p)=>a+p.x,0)/6, y: le.reduce((a,p)=>a+p.y,0)/6 };
-    const rc = { x: re.reduce((a,p)=>a+p.x,0)/6, y: re.reduce((a,p)=>a+p.y,0)/6 };
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(lc.x, lc.y);
-    ctx.lineTo(rc.x, rc.y);
-    ctx.strokeStyle = 'rgba(169,229,187,.85)';
-    ctx.lineWidth   = 1.8;
-    ctx.shadowColor = '#a9e5bb';
-    ctx.shadowBlur  = 5;
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  // ─── Nose-tip to chin connector ─────────────────────────
-  function drawNoseChin() {
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(lms[33].x, lms[33].y);
-    ctx.lineTo(lms[8].x,  lms[8].y);
-    ctx.strokeStyle = 'rgba(254,168,47,.75)';
-    ctx.lineWidth   = 1.8;
-    ctx.shadowColor = '#fea82f';
-    ctx.shadowBlur  = 4;
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  // ─── Draw one polyline segment between group pts ────────
-  function drawGroupEdge(g, edgeIdx) {
-    const pts  = g.pts;
-    const from = pts[edgeIdx];
-    const to   = edgeIdx + 1 < pts.length ? pts[edgeIdx + 1]
-                 : (g.close ? pts[0] : null);
-    if (!to) return;
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(from.x, from.y);
-    ctx.lineTo(to.x, to.y);
-    ctx.strokeStyle = g.color;
-    ctx.lineWidth   = 1.5;
-    ctx.shadowColor = g.color;
-    ctx.shadowBlur  = 4;
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  // ─── Phase 1: dots appearing one by one ─────────────────
-  function animateDots() {
-    if (pointIdx >= allPts.length) {
-      // All dots drawn → start line phase
-      lineGroup = 0;
-      lineEdge  = 0;
-      setTimeout(animateLines, LINE_INTERVAL);
-      return;
-    }
-    drawDot(allPts[pointIdx], dotColor(pointIdx));
-    pointIdx++;
-    setTimeout(animateDots, POINT_INTERVAL);
-  }
-
-  // ─── Phase 2: lines drawn segment by segment ────────────
-  function animateLines() {
-    if (lineGroup >= GROUPS.length) {
-      // All lines drawn → draw cross-connectors
-      drawEyeLine();
-      drawNoseChin();
-      return;
-    }
-    const g = GROUPS[lineGroup];
-    const maxEdges = g.pts.length - (g.close ? 0 : 1);
-    if (lineEdge >= maxEdges) {
-      // Move to next group
-      lineGroup++;
-      lineEdge = 0;
-      setTimeout(animateLines, LINE_INTERVAL * 2); // small pause between groups
-      return;
-    }
-    drawGroupEdge(g, lineEdge);
-    lineEdge++;
-    setTimeout(animateLines, LINE_INTERVAL);
-  }
-
-  // ─── Kick off animation ─────────────────────────────────
-  animateDots();
+  // Eye-to-eye line
+  const leftEye = lms.slice(36,42);
+  const rightEye = lms.slice(42,48);
+  const lec = {x:leftEye.reduce((a,p)=>a+p.x,0)/6, y:leftEye.reduce((a,p)=>a+p.y,0)/6};
+  const rec = {x:rightEye.reduce((a,p)=>a+p.x,0)/6, y:rightEye.reduce((a,p)=>a+p.y,0)/6};
+  ctx.beginPath();ctx.moveTo(lec.x,lec.y);ctx.lineTo(rec.x,rec.y);
+  ctx.strokeStyle='rgba(169,229,187,.8)';ctx.lineWidth=1.5;ctx.stroke();
+  // Nose tip to chin
+  const noseTip=lms[33];const chin=lms[8];
+  ctx.beginPath();ctx.moveTo(noseTip.x,noseTip.y);ctx.lineTo(chin.x,chin.y);
+  ctx.strokeStyle='rgba(254,168,47,.7)';ctx.lineWidth=1.5;ctx.stroke();
 }
 
 function renderFaceScanResult(detection){
@@ -2389,22 +2236,15 @@ function checkGateEntry(){
       <div class="voter-info-row"><span class="voter-info-key">Status</span><span class="voter-info-val" style="color:var(--cel2)">✅ Not Voted Yet</span></div>
     </div>`;
     sendBleCommand('GATE_OPEN');
-    // Clear any previous face session data before new voter uses cam
-    closeVoteCam();
-    document.getElementById('faceVerifyStatus').textContent='Complete gate entry and then verify your face to vote.';
-    document.getElementById('voteStep2').classList.remove('verified');
-    document.getElementById('voteLockedBadge').style.display='';
-    // Enable vote cam button for this new voter
-    document.getElementById('openVoteCamBtn').disabled=false;
-    updateVoteStep1();
     setTimeout(()=>{
       gateViz.className='gate-visual';gateViz.textContent='🚪';
       statusMsg.className='gate-status-msg idle';statusMsg.textContent='Gate closed. Proceed to vote.';
       setLedGreen(false);setOled('VisionVote Ready');
       sendBleCommand('GATE_CLOSE');
-      // Auto-switch to Cast Vote tab after gate closes
-      switchUserMode('vote');
     },5000);
+    // Enable vote cam button
+    document.getElementById('openVoteCamBtn').disabled=false;
+    updateVoteStep1();
     }else{
     currentVoter=null;voterFaceVerified=false;
     const lockEl3=document.getElementById('voteTabLock');
@@ -2468,14 +2308,7 @@ async function openVoteCam(){
 function closeVoteCam(){
   if(voteStream) voteStream.getTracks().forEach(t=>t.stop());
   voteStream=null;
-  const vid=document.getElementById('voteVideo');
-  vid.pause();
-  vid.srcObject=null;
-  // Clear the canvas so no previous face frame lingers
-  const cvs=document.getElementById('voteCanvas');
-  const ctx=cvs.getContext('2d');
-  ctx.clearRect(0,0,cvs.width,cvs.height);
-  cvs.width=1; cvs.height=1; // force blank
+  document.getElementById('voteVideo').srcObject=null;
   document.getElementById('voteCamWrap').style.display='none';
   document.getElementById('openVoteCamBtn').style.display='';
 }
@@ -2505,22 +2338,24 @@ async function runVoteFaceVerify(){
     const dist=Math.sqrt(sum);
     if(dist<0.55){
       voterFaceVerified=true;
-      document.getElementById('faceVerifyStatus').innerHTML='<span style="color:var(--cel2);font-weight:700">✅ Face Verified! Press a physical button to vote.</span>';
+      document.getElementById('faceVerifyStatus').innerHTML='<span style="color:var(--cel2);font-weight:700">✅ Face Verified! Distance: '+dist.toFixed(3)+'</span>';
       document.getElementById('voteStep2').classList.add('verified');
       document.getElementById('voteLockedBadge').style.display='none';
       document.getElementById('voteCamMsg').textContent='✅ Identity confirmed!';
+      showToast('Verified!','Face matched. You can now vote.','success');
       setOled('Face Verified\nVote Now!');
       closeVoteCam();
       renderVoteCandidates();
       sendBleCommand('FACE_VERIFIED');
     }else{
       document.getElementById('voteCamMsg').textContent='❌ Face mismatch (dist: '+dist.toFixed(3)+')';
-      document.getElementById('faceVerifyStatus').innerHTML='<span style="color:#ff8fa3;font-weight:700">❌ Face not recognised. Distance: '+dist.toFixed(3)+' (need &lt; 0.55). Please try again.</span>';
+      document.getElementById('faceVerifyStatus').innerHTML='<span style="color:#ff8fa3;font-weight:700">❌ Face not recognised. Dist: '+dist.toFixed(3)+' (need < 0.55)</span>';
       setLedRed(true); setOled('UNVERIFIED\nTry Again');
+      showToast('Mismatch','Face not recognised. Try again.','error');
       sendBleCommand('FACE_FAIL');
       setTimeout(()=>{ setLedRed(false); setOled('VisionVote Ready'); },3000);
     }
-  }catch(e){ console.error('Face verify error:',e); }
+  }catch(e){ showToast('Error',e.message,'error'); }
 }
 
 // ════════════════════════════════════
@@ -2567,9 +2402,9 @@ function prevSlide(){ const chunks=Math.ceil(STATE.candidates.length/3); goSlide
 function castVote(candId){
   // Voting is ONLY via physical buttons (BLE notify). This function
   // is called internally by castVoteByButtonIndex — never from card clicks.
-  if(!voterFaceVerified){ console.warn('Vote rejected: face not verified'); return; }
-  if(!currentVoter){ console.warn('Vote rejected: no voter session'); return; }
-  if(currentVoter.hasVoted){ console.warn('Vote rejected: already voted'); return; }
+  if(!voterFaceVerified){ showToast('Not Verified','Verify face first.','error'); return; }
+  if(!currentVoter){ showToast('Error','No voter session.','error'); return; }
+  if(currentVoter.hasVoted){ showToast('Already Voted','This voter has already voted.','error'); return; }
   const cand=STATE.candidates.find(c=>c.id===candId);
   if(!cand) return;
   cand.votes++;
@@ -2583,59 +2418,30 @@ function castVote(candId){
   });
   STATE.voteTimeline.push({ts:Date.now(),cand:cand.name});
   saveState();
+  // Thank you popup
+  const ta=document.getElementById('thankYouOverlay');
+  document.getElementById('thankYouMsg').textContent='Your vote has been recorded, '+currentVoter.name+'!';
+  document.getElementById('thankYouVotedFor').textContent='Voted for: '+cand.name+' ('+cand.party+')';
+  spawnConfetti();
+  ta.classList.remove('hidden');
   setOled('Vote Cast!\nThank You');
   sendBleCommand('VOTE_CAST');
-  spawnConfetti();
-
-  // Show inline thank-you message — no browser popup
-  const thankDiv=document.getElementById('voteVoterPreview');
-  thankDiv.innerHTML=`<div style="text-align:center;padding:20px 10px">
-    <div style="font-size:28px;margin-bottom:8px">🎉</div>
-    <div style="font-size:17px;font-weight:800;color:var(--cel2);margin-bottom:6px">Thank you, ${currentVoter.name}!</div>
-    <div style="font-size:13px;font-weight:600;color:var(--orange);margin-bottom:4px">Voted for: ${cand.name} (${cand.party})</div>
-    <div style="font-size:13px;color:rgba(26,5,8,.55);font-weight:600">You are a great citizen! 🗳️</div>
-    <div style="margin-top:10px;font-size:11px;color:rgba(26,5,8,.35)">Returning to gate entry…</div>
-  </div>`;
-
-  // Clear cameras & previous face data immediately
-  closeVoteCam();
-  const cvs=document.getElementById('voteCanvas');
-  const ctx2=cvs.getContext('2d');
-  ctx2.clearRect(0,0,cvs.width,cvs.height);
-
-  const voterName=currentVoter.name;
   currentVoter=null; voterFaceVerified=false;
-
   // Re-lock Cast Vote tab
   const lockEl2=document.getElementById('voteTabLock');
   if(lockEl2){ lockEl2.textContent='🔒 Verify First'; lockEl2.style.color='rgba(26,5,8,.4)'; }
-
-  // Auto-redirect to gate entry after 3 seconds
-  setTimeout(()=>{
-    // Full reset of vote section
-    document.getElementById('openVoteCamBtn').disabled=true;
-    document.getElementById('voteVoterPreview').textContent='Complete Gate Entry first to load your voter profile.';
-    document.getElementById('faceVerifyStatus').textContent='Complete gate entry and then verify your face to vote.';
-    document.getElementById('voteStep2').classList.remove('verified');
-    document.getElementById('voteLockedBadge').style.display='';
-    // Clear candidate slides (no stale voter context)
-    renderVoteCandidates();
-    // Close any open thank-you overlay (legacy safety)
-    document.getElementById('thankYouOverlay').classList.add('hidden');
-    // Switch to gate entry tab
-    document.querySelectorAll('.mode-panel').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
-    document.getElementById('mpGate').classList.add('active');
-    document.getElementById('mtGate').classList.add('active');
-    document.getElementById('gateIdInput').value='';
-    // Reset gate status
-    const statusMsg=document.getElementById('gateStatusMsg');
-    if(statusMsg){ statusMsg.className='gate-status-msg idle'; statusMsg.textContent='Enter a Voter ID to verify.'; }
-    const gateViz=document.getElementById('gateViz');
-    if(gateViz){ gateViz.className='gate-visual'; gateViz.textContent='🚪'; }
-    setLedGreen(false); setLedRed(false);
-    setOled('VisionVote\nReady');
-  }, 3000);
+  // Switch back to gate entry
+  document.querySelectorAll('.mode-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mpGate').classList.add('active');
+  document.getElementById('mtGate').classList.add('active');
+  document.getElementById('openVoteCamBtn').disabled=true;
+  document.getElementById('gateIdInput').value='';
+  document.getElementById('voteVoterPreview').textContent='Complete Gate Entry first to load your voter profile.';
+  document.getElementById('faceVerifyStatus').textContent='Complete gate entry and then verify your face to vote.';
+  document.getElementById('voteStep2').classList.remove('verified');
+  document.getElementById('voteLockedBadge').style.display='';
+  renderVoteCandidates();
 }
 function closeThankYou(){ document.getElementById('thankYouOverlay').classList.add('hidden'); }
 
@@ -2897,13 +2703,13 @@ function handleBleNotify(event){
 // Cast vote by button slot index (0,1,2) on the currently visible slide
 function castVoteByButtonIndex(slotIndex){
   if(!voterFaceVerified){
-    // Quietly ignore — OLED on ESP32 already shows "Not Ready"
+    showToast('Not Verified','Face verify first.','error');
     return;
   }
   // Find which candidates are on the current slide
   const chunk = STATE.candidates.slice(currentVotingSlide*3, currentVotingSlide*3+3);
   if(slotIndex >= chunk.length){
-    // No candidate at this slot on current slide — ignore silently
+    showToast('No Candidate','No candidate at button '+( slotIndex+1)+' on this slide.','error');
     return;
   }
   castVote(chunk[slotIndex].id);
