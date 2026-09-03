@@ -4,9 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>VisionVote — Smart AVM by CognoSpace</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800;900&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/dist/face-api.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -1057,126 +1055,6 @@ footer{
   .auth-card{padding:28px 20px;}
   .admin-content{padding:12px;}
 }
-
-/* ══════════════════════════════════════════════════════════
-   ✦ WOW LAYER — additive visual polish (no markup/JS changes)
-   Deepens the honey-amber identity: a biometric-scan hero, one
-   orchestrated entrance, tactile feedback, harmonised accents.
-══════════════════════════════════════════════════════════ */
-
-/* Accessibility — respect reduced motion & keyboard focus */
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{
-    animation-duration:.01ms!important;animation-iteration-count:1!important;
-    transition-duration:.01ms!important;scroll-behavior:auto!important;
-  }
-}
-:focus-visible{outline:2.5px solid #ffa259;outline-offset:3px;border-radius:8px}
-::selection{background:rgba(255,162,89,.28)}
-::-webkit-scrollbar-thumb{background:linear-gradient(#ffcb56,#ffa259)}
-
-/* new motion */
-@keyframes vvReveal{from{opacity:0;transform:translateY(26px) scale(.985)}to{opacity:1;transform:none}}
-@keyframes vvGridDrift{from{background-position:0 0}to{background-position:26px 26px}}
-@keyframes vvHeroScan{0%{transform:translateY(-160px);opacity:0}12%{opacity:1}86%{opacity:1}100%{transform:translateY(94vh);opacity:0}}
-@keyframes vvShine{0%{transform:translateX(-160%) skewX(-18deg)}60%,100%{transform:translateX(320%) skewX(-18deg)}}
-@keyframes vvBadgePulse{0%,100%{box-shadow:0 2px 12px rgba(255,162,89,.15),0 0 0 0 rgba(255,162,89,.35)}50%{box-shadow:0 2px 18px rgba(255,162,89,.3),0 0 0 7px rgba(255,162,89,0)}}
-@keyframes vvSheen{0%{background-position:-200% 0}100%{background-position:200% 0}}
-
-/* ═══ HERO ═══ */
-/* biometric dot-grid backdrop, masked to a soft focus */
-#landing::before{
-  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
-  background-image:radial-gradient(circle at center,rgba(255,162,89,.55) 1px,transparent 1.4px);
-  background-size:26px 26px;opacity:.32;
-  -webkit-mask-image:radial-gradient(ellipse 78% 58% at 50% 30%,#000 36%,transparent 76%);
-  mask-image:radial-gradient(ellipse 78% 58% at 50% 30%,#000 36%,transparent 76%);
-  animation:vvGridDrift 6s linear infinite;
-}
-[data-theme="dark"] #landing::before{opacity:.5}
-/* slow scanning sweep — echoes the face-scan identity */
-#landing::after{
-  content:'';position:absolute;left:0;right:0;top:0;height:150px;z-index:0;pointer-events:none;
-  background:linear-gradient(180deg,transparent,rgba(255,178,90,.10) 46%,rgba(255,203,86,.15) 50%,transparent);
-  filter:blur(1px);animation:vvHeroScan 9s ease-in-out infinite;
-}
-
-/* one orchestrated, staggered entrance (replaces the blanket fade) */
-#landing.active .landing-content{animation:none}
-#landing.active .landing-badge{animation:vvReveal .72s cubic-bezier(.16,.84,.44,1) .04s both, vvBadgePulse 3.4s ease-in-out .8s infinite}
-#landing.active .landing-title{animation:vvReveal .72s cubic-bezier(.16,.84,.44,1) .12s both, gradShift 6s ease-in-out infinite}
-#landing.active .landing-subtitle{animation:vvReveal .72s cubic-bezier(.16,.84,.44,1) .2s both}
-#landing.active .landing-logo-area{animation:vvReveal .72s cubic-bezier(.16,.84,.44,1) .28s both}
-#landing.active .landing-btns{animation:vvReveal .72s cubic-bezier(.16,.84,.44,1) .36s both}
-#landing.active .landing-content>div:last-child{animation:vvReveal .72s cubic-bezier(.16,.84,.44,1) .44s both}
-
-/* deeper glow on the wordmark */
-.landing-title{filter:drop-shadow(0 6px 30px rgba(255,162,89,.5)) drop-shadow(0 2px 8px rgba(255,126,126,.22))}
-
-/* big landing buttons: light sweep on hover + press feedback */
-.landing-btn::after{
-  content:'';position:absolute;top:0;bottom:0;left:0;width:38%;pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);
-  transform:translateX(-160%) skewX(-18deg);
-}
-.landing-btn:hover::after{animation:vvShine .9s ease}
-.landing-btn:active{transform:translateY(-1px) scale(.99)}
-
-/* primary buttons everywhere: sweep + tactile press */
-.btn-primary{position:relative;overflow:hidden}
-.btn-primary::after{
-  content:'';position:absolute;top:0;bottom:0;left:0;width:45%;pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
-  transform:translateX(-160%) skewX(-18deg);
-}
-.btn-primary:hover::after{animation:vvShine 1s ease}
-.btn-primary:active{transform:translateY(0) scale(.985)}
-
-/* ═══ NAV ═══ */
-.nav-tab{position:relative;overflow:hidden}
-.nav-tab.active{box-shadow:0 3px 14px rgba(255,162,89,.26)}
-
-/* ═══ CARDS & PANELS ═══ */
-.card{transition:transform .22s cubic-bezier(.2,.7,.3,1),box-shadow .22s,background .35s,border-color .35s}
-.card:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(255,162,89,.16)}
-
-/* a travelling hairline of light across focal cards */
-.chart-card,.results-banner,.auth-card{position:relative;overflow:hidden}
-.chart-card::before,.results-banner::before,.auth-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;pointer-events:none;
-  background:linear-gradient(90deg,transparent,#ffcb56,#ffa259,#ff7e7e,transparent);
-  background-size:200% 100%;animation:vvSheen 4.5s linear infinite;
-}
-
-/* winner reveal feels celebratory */
-.results-banner{box-shadow:0 14px 44px rgba(255,162,89,.22)}
-.winner-name{filter:drop-shadow(0 2px 12px rgba(255,162,89,.4))}
-
-/* headline stat numbers get a warm gradient */
-.stat-number{
-  background:linear-gradient(135deg,#ffb347,#ff7e7e);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-}
-
-/* sidebar active item gets a soft accent bar */
-.sb-item{position:relative}
-.sb-item.active::before{
-  content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
-  width:3px;height:58%;border-radius:3px;background:linear-gradient(#ffcb56,#ffa259);
-}
-
-/* toast: coloured accent strip by type */
-.toast{position:relative;overflow:hidden}
-.toast::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#ffa259}
-.toast.success::before{background:#2d8a5e}
-.toast.error::before{background:#ff7e7e}
-
-/* ═══ HARMONISE STRAY CRIMSON → HONEY-AMBER ═══ */
-.mode-tab.active{background:linear-gradient(135deg,#ffcb56,#ffa259);color:#2a1800}
-.modal{border-color:rgba(255,162,89,.28)}
-.modal-close:hover{background:rgba(255,162,89,.16);color:#cc6600}
-.face-verify-card{background:rgba(255,162,89,.06);border-color:rgba(255,162,89,.2)}
-.candidate-card:hover{border-color:rgba(255,162,89,.45);transform:translateY(-3px);box-shadow:0 10px 26px rgba(255,162,89,.16)}
 </style>
 </head>
 <body>
