@@ -519,7 +519,7 @@ void setup() {
   }
 
   // ── BLE ──
-  BLEDevice::init("VisionVote-Coggy");
+  BLEDevice::init("VisionVote-Tesla"); //chnage you BLE name here
   pServer = BLEDevice::createServer();
   pServer->setCallbacks(new ServerCB());
 

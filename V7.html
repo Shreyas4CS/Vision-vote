@@ -649,115 +649,93 @@ body{font-family:'Lexend',sans-serif;background:var(--bg-page,linear-gradient(13
 .log-table td{padding:10px 12px;font-size:12.5px;color:rgba(26,5,8,.7);font-weight:500;border-bottom:1px solid rgba(26,5,8,.05)}
 .log-table tr:last-child td{border-bottom:none}
 
-/* ── MINIMAL FOOTER ── */
+/* Footer */
 footer{
-  background:rgba(255,162,89,.08);
-  border-top:1.5px solid rgba(255,162,89,.2);
-  padding:14px 32px;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:8px;
+  background:linear-gradient(160deg,#0d1117 0%,#161b27 50%,#0a0e18 100%);
+  border-top:2px solid rgba(99,120,255,.25);padding:0;position:relative;overflow:hidden;
 }
-[data-theme="dark"] footer{
-  background:rgba(255,162,89,.05);
-  border-top-color:rgba(255,162,89,.15);
+footer::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(ellipse at 15% 50%,rgba(99,120,255,.07),transparent 55%),
+             radial-gradient(ellipse at 85% 50%,rgba(168,85,247,.05),transparent 55%);
+  pointer-events:none;
 }
 .footer-rainbow{
-  display:none;
+  height:3px;
+  background:linear-gradient(90deg,#6378ff,#a855f7,#ec4899,#f97316,#a855f7,#6378ff);
+  background-size:200%;animation:rainbowBar 5s linear infinite;
 }
-.footer-main{display:none;}
+.footer-main{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;
+  padding:32px 48px 24px;position:relative;z-index:1;
+}
+.footer-brand-col{}
+.footer-brand-logo{
+  display:flex;align-items:center;gap:10px;margin-bottom:10px;transition:opacity .2s;
+}
+.footer-brand-logo:hover{opacity:.85;}
+.footer-brand-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,#6378ff,#a855f7);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  box-shadow:0 3px 12px rgba(99,120,255,.35);flex-shrink:0;
+}
+.footer-brand-name{
+  font-family:'Lexend',sans-serif;font-size:18px;font-weight:800;
+  background:linear-gradient(135deg,#818cf8,#c084fc);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.footer-logo-img{height:24px;width:auto;display:block;filter:brightness(0) invert(1);opacity:.7;transition:opacity .2s;}
+.footer-logo-img:hover{opacity:1;}
+.footer-brand-tag{font-size:10px;color:rgba(200,210,255,.35);font-weight:600;letter-spacing:1.5px;text-transform:uppercase;display:block}
+a.footer-brand-tag:hover{color:#818cf8;}
+.footer-brand-desc{
+  font-size:12px;color:rgba(200,210,255,.45);line-height:1.65;font-weight:400;
+  max-width:240px;margin-bottom:14px;
+}
+.footer-tech-badges{display:flex;flex-wrap:wrap;gap:6px}
+.footer-tech-badge{
+  padding:3px 9px;border-radius:50px;
+  font-size:10px;font-weight:700;letter-spacing:.4px;
+  background:rgba(99,120,255,.1);border:1px solid rgba(99,120,255,.2);
+  color:rgba(180,190,255,.7);
+}
+.footer-col-head{
+  font-family:'Lexend',sans-serif;font-size:11px;font-weight:700;
+  color:#818cf8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;
+}
+.footer-col-links{display:flex;flex-direction:column;gap:8px}
+.footer-col-link{
+  font-size:12.5px;color:rgba(200,210,255,.45);font-weight:500;
+  text-decoration:none;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;gap:6px;
+}
+.footer-col-link:hover{color:#818cf8;transform:translateX(4px)}
+.footer-col-link::before{content:'→';font-size:10px;opacity:0;transition:opacity .2s}
+.footer-col-link:hover::before{opacity:1}
+.footer-contact-item{
+  display:flex;align-items:flex-start;gap:9px;margin-bottom:10px;
+}
+.footer-contact-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.footer-contact-text{font-size:12px;color:rgba(200,210,255,.45);line-height:1.5}
+.footer-contact-text a{color:#818cf8;text-decoration:none;font-weight:600}
+.footer-contact-text a:hover{text-decoration:underline}
 .footer-bottom{
-  display:contents;
+  border-top:1px solid rgba(99,120,255,.1);
+  padding:12px 48px;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:8px;position:relative;z-index:1;
 }
-.footer-copy{font-size:11.5px;color:rgba(42,24,0,.45);font-weight:500}
-.footer-copy strong{color:rgba(42,24,0,.65)}
-[data-theme="dark"] .footer-copy{color:rgba(255,220,160,.45);}
-[data-theme="dark"] .footer-copy strong{color:rgba(255,220,160,.7);}
+.footer-copy{font-size:11px;color:rgba(200,210,255,.3);font-weight:500}
+.footer-copy strong{color:rgba(200,210,255,.55)}
+.footer-bottom-links{display:flex;gap:16px}
+.footer-bottom-link{font-size:11px;color:rgba(200,210,255,.3);font-weight:600;cursor:pointer;transition:color .2s;text-decoration:none}
+.footer-bottom-link:hover{color:#818cf8}
 .footer-made-by{
-  font-size:11.5px;color:rgba(42,24,0,.4);font-weight:500;
+  font-size:11px;color:rgba(200,210,255,.3);font-weight:500;
   display:flex;align-items:center;gap:5px;
 }
-.footer-made-by a{color:#cc6600;text-decoration:none;font-weight:700}
-.footer-made-by a:hover{color:#ff7e00;text-decoration:underline}
-[data-theme="dark"] .footer-made-by{color:rgba(255,220,160,.4);}
-[data-theme="dark"] .footer-made-by a{color:#ffa259;}
-
-/* ── CUSTOM CONFIRM MODAL ── */
-.confirm-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10000;
-  backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;
-}
-.confirm-overlay.show{display:flex;}
-.confirm-box{
-  background:var(--bg-card,#fff);
-  border:1.5px solid rgba(255,162,89,.3);
-  border-radius:20px;padding:32px 28px 24px;
-  max-width:400px;width:90vw;text-align:center;
-  box-shadow:0 24px 80px rgba(0,0,0,.35);
-  animation:popIn .3s cubic-bezier(.34,1.56,.64,1) both;
-}
-[data-theme="dark"] .confirm-box{background:#1e1500;border-color:rgba(255,162,89,.25);}
-.confirm-icon{font-size:40px;margin-bottom:12px;display:block;}
-.confirm-title{
-  font-family:'Lexend',sans-serif;font-size:17px;font-weight:800;
-  color:var(--text-main,#2a1800);margin-bottom:8px;
-}
-.confirm-msg{
-  font-size:13px;color:var(--text-sub,rgba(42,24,0,.55));
-  font-weight:500;line-height:1.6;margin-bottom:22px;
-}
-.confirm-btns{display:flex;gap:10px;justify-content:center;}
-.confirm-btns button{flex:1;max-width:160px;padding:11px 0;border-radius:10px;font-family:'Lexend',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .18s;border:1.5px solid;}
-.confirm-ok{background:linear-gradient(135deg,#ffcb56,#ffa259);border-color:#ffa259;color:#2a1800;}
-.confirm-ok:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,162,89,.4);}
-.confirm-ok.danger{background:linear-gradient(135deg,#ff6b6b,#dd2d4a);border-color:#dd2d4a;color:#fff;}
-.confirm-ok.danger:hover{box-shadow:0 6px 20px rgba(221,45,74,.4);}
-.confirm-cancel{background:transparent;border-color:rgba(42,24,0,.18);color:rgba(42,24,0,.6);}
-[data-theme="dark"] .confirm-cancel{border-color:rgba(255,162,89,.2);color:rgba(255,220,160,.55);}
-.confirm-cancel:hover{background:rgba(42,24,0,.06);}
-[data-theme="dark"] .confirm-cancel:hover{background:rgba(255,162,89,.08);}
-
-/* ── VOTE CAST POPUP ── */
-@keyframes popScale{0%{opacity:0;transform:translate(-50%,-50%) scale(.7)}60%{transform:translate(-50%,-50%) scale(1.05)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-@keyframes countdownRing{from{stroke-dashoffset:220}to{stroke-dashoffset:0}}
-.vote-cast-popup{
-  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-  z-index:9999;
-  background:linear-gradient(145deg,#1e1500,#2a1d00);
-  border:2px solid rgba(255,203,86,.4);
-  border-radius:24px;
-  padding:36px 40px 32px;
-  min-width:340px;max-width:90vw;
-  text-align:center;
-  box-shadow:0 24px 80px rgba(0,0,0,.55),0 0 0 1px rgba(255,203,86,.1);
-  animation:popScale .45s cubic-bezier(.34,1.56,.64,1) both;
-  display:none;
-}
-.vote-cast-popup.show{display:block;}
-.vote-cast-popup-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9998;
-  backdrop-filter:blur(6px);display:none;
-}
-.vote-cast-popup-overlay.show{display:block;}
-.vcp-emoji{font-size:56px;margin-bottom:10px;display:block;animation:float 1.8s ease-in-out infinite}
-.vcp-title{
-  font-family:'Lexend',sans-serif;font-size:22px;font-weight:900;
-  background:linear-gradient(135deg,#ffcb56,#ffa259);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  margin-bottom:6px;letter-spacing:.5px;
-}
-.vcp-subtitle{font-size:13px;color:rgba(255,220,160,.65);font-weight:600;margin-bottom:18px}
-.vcp-voted-for{
-  background:rgba(255,203,86,.1);border:1.5px solid rgba(255,203,86,.3);
-  border-radius:12px;padding:14px 20px;margin-bottom:20px;
-}
-.vcp-voted-for-label{font-size:10px;font-weight:700;color:rgba(255,220,160,.5);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px}
-.vcp-voted-for-name{font-size:18px;font-weight:800;color:#ffcb56;font-family:'Lexend',sans-serif}
-.vcp-voted-for-party{font-size:12px;color:rgba(255,162,89,.7);font-weight:600;margin-top:2px}
-.vcp-timer-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:6px}
-.vcp-timer-svg{transform:rotate(-90deg)}
-.vcp-timer-circle{stroke-dasharray:220;stroke-dashoffset:220;animation:countdownRing 7s linear forwards}
-.vcp-timer-count{font-family:'Lexend',sans-serif;font-size:13px;font-weight:700;color:rgba(255,220,160,.6)}
-.vcp-redirect-note{font-size:11px;color:rgba(255,220,160,.35);font-weight:600;letter-spacing:.5px}
+.footer-made-by a{color:#a78bfa;text-decoration:none;font-weight:700}
+.footer-made-by a:hover{color:#818cf8}
 /* ── Voter ID Card styles ── */
 .id-card{
   background:#fff;
@@ -812,78 +790,6 @@ footer{
 [data-theme="dark"] .id-card-val{color:#ffe8c0;}
 [data-theme="dark"] .id-card-footer{background:rgba(255,162,89,.04);border-color:rgba(255,162,89,.1);}
 [data-theme="dark"] .id-card-row{border-color:rgba(255,162,89,.07);}
-/* ── EXTRA DARK MODE TEXT VISIBILITY FIXES ── */
-[data-theme="dark"] .section-badge{color:#ffe8c0;background:rgba(255,162,89,.15);border-color:rgba(255,162,89,.25);}
-[data-theme="dark"] .card-header .card-title{color:#ffe8c0;}
-[data-theme="dark"] .voter-table th{color:rgba(255,220,160,.55);border-color:rgba(255,162,89,.15);}
-[data-theme="dark"] .voter-table td{color:rgba(255,220,160,.8);border-color:rgba(255,162,89,.08);}
-[data-theme="dark"] .log-table th{color:rgba(255,220,160,.55);border-color:rgba(255,162,89,.15);}
-[data-theme="dark"] .log-table td{color:rgba(255,220,160,.8);border-color:rgba(255,162,89,.07);}
-[data-theme="dark"] .candidate-card{background:#1e1500;border-color:rgba(255,162,89,.15);}
-[data-theme="dark"] .candidate-name{color:#ffe8c0;}
-[data-theme="dark"] .candidate-party{color:rgba(255,220,160,.55);}
-[data-theme="dark"] .candidate-votes-label{color:rgba(255,220,160,.5);}
-[data-theme="dark"] .stat-number-sub{color:rgba(255,220,160,.5);}
-[data-theme="dark"] .oled-sim{border-color:rgba(255,255,255,.12);}
-[data-theme="dark"] .servo-label{color:rgba(255,220,160,.7);}
-[data-theme="dark"] .servo-input{background:#1a1200;border-color:rgba(255,162,89,.25);color:#ffe8c0;}
-[data-theme="dark"] .servo-row span{color:rgba(255,220,160,.45);}
-[data-theme="dark"] .card{background:#1e1500;border-color:rgba(255,162,89,.15);}
-[data-theme="dark"] .form-input{background:#1a1200;border-color:rgba(255,162,89,.25);color:#ffe8c0;}
-[data-theme="dark"] .form-input::placeholder{color:rgba(255,200,120,.3);}
-[data-theme="dark"] .step-label{color:rgba(255,220,160,.5);}
-[data-theme="dark"] .step-line{background:rgba(255,162,89,.15);}
-[data-theme="dark"] .step-circle{border-color:rgba(255,162,89,.25);color:rgba(255,220,160,.4);background:rgba(255,162,89,.07);}
-[data-theme="dark"] .face-verify-card{color:rgba(255,220,160,.7);}
-[data-theme="dark"] .gate-id-input{background:#1a1200;border-color:rgba(255,162,89,.25);color:#ffe8c0;}
-[data-theme="dark"] .gate-id-input::placeholder{color:rgba(255,200,120,.3);}
-[data-theme="dark"] .voter-profile-name{color:#ffe8c0;}
-[data-theme="dark"] .voter-id-label{color:#ffa259;}
-[data-theme="dark"] #attendanceEmpty{color:rgba(255,220,160,.45);}
-[data-theme="dark"] #voterTableEmpty{color:rgba(255,220,160,.45);}
-[data-theme="dark"] #idCardsEmpty{color:rgba(255,220,160,.4);}
-[data-theme="dark"] .hiw-card{background:#1e1500 !important;border-color:rgba(255,162,89,.12) !important;}
-[data-theme="dark"] .hiw-title{color:#ffe8c0 !important;}
-[data-theme="dark"] .hiw-desc{color:rgba(255,220,160,.5) !important;}
-[data-theme="dark"] .slide-header{color:rgba(255,220,160,.6) !important;}
-[data-theme="dark"] .vote-candidate-card{color:rgba(255,220,160,.8);}
-[data-theme="dark"] .vote-candidate-card div[style*="color:#1a0508"]{color:#ffe8c0 !important;}
-[data-theme="dark"] .vote-candidate-card div[style*="color:rgba(26,5,8"]{color:rgba(255,220,160,.55) !important;}
-[data-theme="dark"] .card-title{color:#ffe8c0;}
-[data-theme="dark"] #voteVoterPreview{color:rgba(255,220,160,.5);}
-[data-theme="dark"] #faceVerifyStatus{color:rgba(255,220,160,.55);}
-[data-theme="dark"] #voteLockedBadge{background:rgba(221,45,74,.15);color:#ff8fa3;border-color:rgba(221,45,74,.25);}
-[data-theme="dark"] .mode-tab{background:#1e1500;color:rgba(255,220,160,.5);border-color:rgba(255,162,89,.15);}
-[data-theme="dark"] .mode-tab.active{background:rgba(255,162,89,.15);color:#ffcb56;border-color:rgba(255,162,89,.35);}
-[data-theme="dark"] #voteTabLock{color:rgba(255,200,120,.4) !important;}
-[data-theme="dark"] .bleStatusDesc{color:rgba(255,220,160,.5);}
-[data-theme="dark"] #bleStatusTitle{color:#ffe8c0;}
-[data-theme="dark"] #bleStatusDesc{color:rgba(255,220,160,.5);}
-[data-theme="dark"] .voter-info-card{background:#251900;border-color:rgba(255,162,89,.2);}
-[data-theme="dark"] .gate-status-msg.idle{color:rgba(255,220,160,.5);}
-[data-theme="dark"] .gate-status-msg.success{color:#a7d49b;}
-[data-theme="dark"] .gate-status-msg.error{color:#ff8fa3;}
-[data-theme="dark"] .landing-badge{color:#ffa259;}
-[data-theme="dark"] .landing-feat-dot{color:rgba(255,220,160,.55) !important;background:rgba(255,162,89,.08) !important;}
-[data-theme="dark"] .auth-card .form-input{background:#1a1200;border-color:rgba(255,162,89,.25);color:#ffe8c0;}
-[data-theme="dark"] .knn-canvas-wrap{border-color:rgba(255,162,89,.15);}
-[data-theme="dark"] p[style*="color:rgba(26,5,8"]{color:rgba(255,220,160,.6) !important;}
-[data-theme="dark"] div[style*="color:rgba(26,5,8"]{color:rgba(255,220,160,.6) !important;}
-[data-theme="dark"] span[style*="color:rgba(26,5,8"]{color:rgba(255,220,160,.6) !important;}
-[data-theme="dark"] div[style*="color:#1a0508"]{color:#ffe8c0 !important;}
-[data-theme="dark"] span[style*="color:#1a0508"]{color:#ffe8c0 !important;}
-[data-theme="dark"] label[style*="color:rgba(42,24,0"]{color:rgba(255,220,160,.55) !important;}
-[data-theme="dark"] div[style*="color:#cc7700"]{color:#ffa259 !important;}
-[data-theme="dark"] div[style*="color:#2a1800"]{color:#ffe8c0 !important;}
-[data-theme="dark"] span[style*="color:#2a1800"]{color:#ffe8c0 !important;}
-[data-theme="dark"] div[style*="font-size:16px;font-weight:700;color:#1a0508"]{color:#ffe8c0 !important;}
-[data-theme="dark"] div[style*="font-size:12px;font-weight:700;color:rgba(42,24,0,.4)"]{color:rgba(255,220,160,.4) !important;}
-[data-theme="dark"] div[style*="font-size:13px;font-weight:600;color:rgba(26,5,8"]{color:rgba(255,220,160,.6) !important;}
-[data-theme="dark"] div[style*="font-size:11px;color:rgba(26,5,8"]{color:rgba(255,220,160,.45) !important;}
-[data-theme="dark"] .results-banner{background:#1e1500;border-color:rgba(255,203,86,.25);}
-[data-theme="dark"] .winner-name{color:#ffcb56;}
-[data-theme="dark"] .winner-votes{color:rgba(255,220,160,.6);}
-[data-theme="dark"] select.form-input option{background:#1a1200;color:#ffe8c0;}
 /* Legacy compat */
 .footer-inner{display:none}
 .footer-title,.footer-tagline,.footer-links,.footer-link,.footer-brand{}
@@ -1173,8 +1079,64 @@ footer{
     </div>
   </div>
   <footer>
-    <div class="footer-copy">© 2026 <strong>CognoSpace</strong>. VisionVote — for educational use only.</div>
-    <div class="footer-made-by">🗳️ Built with ❤️ by <a href="https://www.cognospace.in" target="_blank">CognoSpace</a></div>
+    <div class="footer-rainbow"></div>
+    <div class="footer-main">
+      <div class="footer-brand-col">
+        <a href="https://www.cognospace.in" target="_blank" rel="noopener" class="footer-brand-logo" style="text-decoration:none;cursor:pointer">
+          <div class="footer-brand-icon">🗳️</div>
+          <div>
+            <div class="footer-brand-name">VisionVote</div>
+            <a href="https://www.cognospace.in" target="_blank" rel="noopener" class="footer-brand-tag" style="text-decoration:none">by CognoSpace ↗</a>
+          </div>
+        </a>
+        <p class="footer-brand-desc">A next-generation Smart Automated Voting Machine powered by Computer Vision, Facial Recognition & IoT — making elections secure, transparent, and fraud-proof.</p>
+        <div class="footer-tech-badges">
+          <span class="footer-tech-badge">🧠 Face-API.js</span>
+          <span class="footer-tech-badge">📡 BLE / ESP32</span>
+          <span class="footer-tech-badge">📐 KNN Algorithm</span>
+          <span class="footer-tech-badge">🔒 Secure</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Navigate</div>
+        <div class="footer-col-links">
+          <span class="footer-col-link" onclick="goTo('landing')">Home</span>
+          <span class="footer-col-link" onclick="checkAdmin('voters')">Admin Panel</span>
+          <span class="footer-col-link" onclick="goUserMode()">Voter Mode</span>
+          <span class="footer-col-link" onclick="checkAdmin('stats')">Live Results</span>
+          <span class="footer-col-link" onclick="checkAdmin('knn')">KNN Visualizer</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Features</div>
+        <div class="footer-col-links">
+          <span class="footer-col-link">👁️ Face Detection</span>
+          <span class="footer-col-link">📐 128-D Embedding</span>
+          <span class="footer-col-link">🔢 KNN Matching</span>
+          <span class="footer-col-link">📡 BLE Integration</span>
+          <span class="footer-col-link">📊 Real-time Charts</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">CognoSpace</div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">🌐</span>
+          <div class="footer-contact-text"><a href="https://www.cognospace.in" target="_blank">www.cognospace.in</a></div>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">🚀</span>
+          <div class="footer-contact-text">Building intelligent solutions for the real world</div>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">🧬</span>
+          <div class="footer-contact-text">AI · IoT · Computer Vision · Edge Computing</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 <strong>CognoSpace</strong>. All rights reserved. VisionVote is for educational purposes only.</div>
+      <div class="footer-made-by">Built with ❤️ by <a href="https://www.cognospace.in" target="_blank">CognoSpace</a></div>
+    </div>
   </footer>
 </div>
 
@@ -1201,8 +1163,64 @@ footer{
   </div>
   </div>
   <footer>
-    <div class="footer-copy">© 2026 <strong>CognoSpace</strong>. VisionVote — for educational use only.</div>
-    <div class="footer-made-by">🗳️ Built with ❤️ by <a href="https://www.cognospace.in" target="_blank">CognoSpace</a></div>
+    <div class="footer-rainbow"></div>
+    <div class="footer-main">
+      <div class="footer-brand-col">
+        <a href="https://www.cognospace.in" target="_blank" rel="noopener" class="footer-brand-logo" style="text-decoration:none;cursor:pointer">
+          <div class="footer-brand-icon">🗳️</div>
+          <div>
+            <div class="footer-brand-name">VisionVote</div>
+            <a href="https://www.cognospace.in" target="_blank" rel="noopener" class="footer-brand-tag" style="text-decoration:none">by CognoSpace ↗</a>
+          </div>
+        </a>
+        <p class="footer-brand-desc">A next-generation Smart Automated Voting Machine powered by Computer Vision, Facial Recognition & IoT — making elections secure, transparent, and fraud-proof.</p>
+        <div class="footer-tech-badges">
+          <span class="footer-tech-badge">🧠 Face-API.js</span>
+          <span class="footer-tech-badge">📡 BLE / ESP32</span>
+          <span class="footer-tech-badge">📐 KNN Algorithm</span>
+          <span class="footer-tech-badge">🔒 Secure</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Navigate</div>
+        <div class="footer-col-links">
+          <span class="footer-col-link" onclick="goTo('landing')">Home</span>
+          <span class="footer-col-link" onclick="checkAdmin('voters')">Admin Panel</span>
+          <span class="footer-col-link" onclick="goUserMode()">Voter Mode</span>
+          <span class="footer-col-link" onclick="checkAdmin('stats')">Live Results</span>
+          <span class="footer-col-link" onclick="checkAdmin('knn')">KNN Visualizer</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Features</div>
+        <div class="footer-col-links">
+          <span class="footer-col-link">👁️ Face Detection</span>
+          <span class="footer-col-link">📐 128-D Embedding</span>
+          <span class="footer-col-link">🔢 KNN Matching</span>
+          <span class="footer-col-link">📡 BLE Integration</span>
+          <span class="footer-col-link">📊 Real-time Charts</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">CognoSpace</div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">🌐</span>
+          <div class="footer-contact-text"><a href="https://www.cognospace.in" target="_blank">www.cognospace.in</a></div>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">🚀</span>
+          <div class="footer-contact-text">Building intelligent solutions for the real world</div>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">🧬</span>
+          <div class="footer-contact-text">AI · IoT · Computer Vision · Edge Computing</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 <strong>CognoSpace</strong>. All rights reserved. VisionVote is for educational purposes only.</div>
+      <div class="footer-made-by">Built with ❤️ by <a href="https://www.cognospace.in" target="_blank">CognoSpace</a></div>
+    </div>
   </footer>
 </div>
 
@@ -1424,15 +1442,12 @@ footer{
         <div class="card">
           <div class="card-header">
             <div class="card-title">Voting Records</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button class="btn-secondary" onclick="exportLog()">📥 Export CSV</button>
-              <button class="btn-danger" onclick="deleteAttendanceLog()">🗑️ Delete All Records</button>
-            </div>
+            <button class="btn-secondary" onclick="exportLog()">📥 Export CSV</button>
           </div>
           <div style="overflow-x:auto">
             <table class="log-table">
               <thead><tr>
-                <th>#</th><th>Voter Name</th><th>Voter ID</th><th>Voted For</th><th>Gender</th><th>Time</th><th>Date</th><th>Action</th>
+                <th>#</th><th>Voter Name</th><th>Voter ID</th><th>Voted For</th><th>Gender</th><th>Time</th><th>Date</th>
               </tr></thead>
               <tbody id="attendanceBody"></tbody>
             </table>
@@ -1503,8 +1518,64 @@ footer{
     </div><!-- /admin-content -->
   </div><!-- /admin-layout -->
   <footer>
-    <div class="footer-copy">© 2026 <strong>CognoSpace</strong>. VisionVote — for educational use only.</div>
-    <div class="footer-made-by">🗳️ Built with ❤️ by <a href="https://www.cognospace.in" target="_blank">CognoSpace</a></div>
+    <div class="footer-rainbow"></div>
+    <div class="footer-main">
+      <div class="footer-brand-col">
+        <a href="https://www.cognospace.in" target="_blank" rel="noopener" class="footer-brand-logo" style="text-decoration:none;cursor:pointer">
+          <div class="footer-brand-icon">🗳️</div>
+          <div>
+            <div class="footer-brand-name">VisionVote</div>
+            <a href="https://www.cognospace.in" target="_blank" rel="noopener" class="footer-brand-tag" style="text-decoration:none">by CognoSpace ↗</a>
+          </div>
+        </a>
+        <p class="footer-brand-desc">A next-generation Smart Automated Voting Machine powered by Computer Vision, Facial Recognition & IoT — making elections secure, transparent, and fraud-proof.</p>
+        <div class="footer-tech-badges">
+          <span class="footer-tech-badge">🧠 Face-API.js</span>
+          <span class="footer-tech-badge">📡 BLE / ESP32</span>
+          <span class="footer-tech-badge">📐 KNN Algorithm</span>
+          <span class="footer-tech-badge">🔒 Secure</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Navigate</div>
+        <div class="footer-col-links">
+          <span class="footer-col-link" onclick="goTo('landing')">Home</span>
+          <span class="footer-col-link" onclick="checkAdmin('voters')">Admin Panel</span>
+          <span class="footer-col-link" onclick="goUserMode()">Voter Mode</span>
+          <span class="footer-col-link" onclick="checkAdmin('stats')">Live Results</span>
+          <span class="footer-col-link" onclick="checkAdmin('knn')">KNN Visualizer</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Features</div>
+        <div class="footer-col-links">
+          <span class="footer-col-link">👁️ Face Detection</span>
+          <span class="footer-col-link">📐 128-D Embedding</span>
+          <span class="footer-col-link">🔢 KNN Matching</span>
+          <span class="footer-col-link">📡 BLE Integration</span>
+          <span class="footer-col-link">📊 Real-time Charts</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">CognoSpace</div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">🌐</span>
+          <div class="footer-contact-text"><a href="https://www.cognospace.in" target="_blank">www.cognospace.in</a></div>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">🚀</span>
+          <div class="footer-contact-text">Building intelligent solutions for the real world</div>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">🧬</span>
+          <div class="footer-contact-text">AI · IoT · Computer Vision · Edge Computing</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 <strong>CognoSpace</strong>. All rights reserved. VisionVote is for educational purposes only.</div>
+      <div class="footer-made-by">Built with ❤️ by <a href="https://www.cognospace.in" target="_blank">CognoSpace</a></div>
+    </div>
   </footer>
 </div>
 
@@ -1529,7 +1600,7 @@ footer{
         <div class="gate-visual" id="gateVisual">🚪</div>
         <div style="width:100%">
           <div style="font-size:12px;font-weight:700;color:rgba(42,24,0,.45);text-align:center;margin-bottom:10px;letter-spacing:1px">ENTER VOTER ID</div>
-          <input type="text" id="gateIdInput" class="gate-id-input" placeholder="CSEVM-00001" maxlength="12" onkeyup="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkGateEntry()"/>
+          <input type="text" id="gateIdInput" class="gate-id-input" placeholder="VOT-XXXXXXXX" maxlength="12" onkeyup="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkGateEntry()"/>
         </div>
         <button class="btn-primary" style="width:100%;padding:14px" onclick="checkGateEntry()">🔍 Verify & Open Gate</button>
         <div class="gate-status-msg idle" id="gateStatusMsg">Enter your Voter ID and press Verify.</div>
@@ -1603,8 +1674,64 @@ footer{
     </div>
   </div>
   <footer>
-    <div class="footer-copy">© 2026 <strong>CognoSpace</strong>. VisionVote — for educational use only.</div>
-    <div class="footer-made-by">🗳️ Built with ❤️ by <a href="https://www.cognospace.in" target="_blank">CognoSpace</a></div>
+    <div class="footer-rainbow"></div>
+    <div class="footer-main">
+      <div class="footer-brand-col">
+        <a href="https://www.cognospace.in" target="_blank" rel="noopener" class="footer-brand-logo" style="text-decoration:none;cursor:pointer">
+          <div class="footer-brand-icon">🗳️</div>
+          <div>
+            <div class="footer-brand-name">VisionVote</div>
+            <a href="https://www.cognospace.in" target="_blank" rel="noopener" class="footer-brand-tag" style="text-decoration:none">by CognoSpace ↗</a>
+          </div>
+        </a>
+        <p class="footer-brand-desc">A next-generation Smart Automated Voting Machine powered by Computer Vision, Facial Recognition & IoT — making elections secure, transparent, and fraud-proof.</p>
+        <div class="footer-tech-badges">
+          <span class="footer-tech-badge">🧠 Face-API.js</span>
+          <span class="footer-tech-badge">📡 BLE / ESP32</span>
+          <span class="footer-tech-badge">📐 KNN Algorithm</span>
+          <span class="footer-tech-badge">🔒 Secure</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Navigate</div>
+        <div class="footer-col-links">
+          <span class="footer-col-link" onclick="goTo('landing')">Home</span>
+          <span class="footer-col-link" onclick="checkAdmin('voters')">Admin Panel</span>
+          <span class="footer-col-link" onclick="goUserMode()">Voter Mode</span>
+          <span class="footer-col-link" onclick="checkAdmin('stats')">Live Results</span>
+          <span class="footer-col-link" onclick="checkAdmin('knn')">KNN Visualizer</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">Features</div>
+        <div class="footer-col-links">
+          <span class="footer-col-link">👁️ Face Detection</span>
+          <span class="footer-col-link">📐 128-D Embedding</span>
+          <span class="footer-col-link">🔢 KNN Matching</span>
+          <span class="footer-col-link">📡 BLE Integration</span>
+          <span class="footer-col-link">📊 Real-time Charts</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-head">CognoSpace</div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">🌐</span>
+          <div class="footer-contact-text"><a href="https://www.cognospace.in" target="_blank">www.cognospace.in</a></div>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">🚀</span>
+          <div class="footer-contact-text">Building intelligent solutions for the real world</div>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">🧬</span>
+          <div class="footer-contact-text">AI · IoT · Computer Vision · Edge Computing</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 <strong>CognoSpace</strong>. All rights reserved. VisionVote is for educational purposes only.</div>
+      <div class="footer-made-by">Built with ❤️ by <a href="https://www.cognospace.in" target="_blank">CognoSpace</a></div>
+    </div>
   </footer>
 </div>
 
@@ -1673,41 +1800,6 @@ footer{
       <div class="knn-legend" id="knnLegendModal"></div>
     </div>
   </div>
-</div>
-
-<!-- Custom Confirm Modal -->
-<div class="confirm-overlay" id="confirmOverlay">
-  <div class="confirm-box">
-    <span class="confirm-icon" id="confirmIcon">⚠️</span>
-    <div class="confirm-title" id="confirmTitle">Are you sure?</div>
-    <div class="confirm-msg" id="confirmMsg"></div>
-    <div class="confirm-btns">
-      <button class="confirm-cancel" id="confirmCancel" onclick="confirmResolve(false)">Cancel</button>
-      <button class="confirm-ok" id="confirmOk" onclick="confirmResolve(true)">Confirm</button>
-    </div>
-  </div>
-</div>
-
-<!-- Vote Cast Popup -->
-<div class="vote-cast-popup-overlay" id="voteCastOverlay"></div>
-<div class="vote-cast-popup" id="voteCastPopup">
-  <div id="vcpConfetti" style="position:absolute;top:0;left:0;right:0;height:60px;overflow:hidden;pointer-events:none"></div>
-  <span class="vcp-emoji">🎉</span>
-  <div class="vcp-title">Thank You, Responsible Citizen!</div>
-  <div class="vcp-subtitle" id="vcpVoterName">Your democratic duty is done.</div>
-  <div class="vcp-voted-for">
-    <div class="vcp-voted-for-label">You voted for</div>
-    <div class="vcp-voted-for-name" id="vcpCandName">—</div>
-    <div class="vcp-voted-for-party" id="vcpCandParty">—</div>
-  </div>
-  <div class="vcp-timer-row">
-    <svg class="vcp-timer-svg" width="36" height="36" viewBox="0 0 36 36">
-      <circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,162,89,.15)" stroke-width="3"/>
-      <circle class="vcp-timer-circle" id="vcpTimerCircle" cx="18" cy="18" r="15" fill="none" stroke="#ffcb56" stroke-width="3" stroke-linecap="round"/>
-    </svg>
-    <div class="vcp-timer-count">Redirecting in <span id="vcpCountdown">7</span>s</div>
-  </div>
-  <div class="vcp-redirect-note">↩ Returning to Gate Entry</div>
 </div>
 
 <!-- Toast container -->
@@ -1850,13 +1942,9 @@ function switchUserMode(mode){
 //  VOTER ID GENERATION
 // ════════════════════════════════════
 function generateVoterId(){
-  const existing = STATE.voters.map(v => {
-    const m = v.voterId && v.voterId.match(/^CSEVM-(\d+)$/);
-    return m ? parseInt(m[1]) : 0;
-  });
-  const maxNum = existing.length ? Math.max(...existing) : 0;
-  const nextNum = maxNum + 1;
-  const id = 'CSEVM-' + String(nextNum).padStart(5, '0');
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let id='VOT-';
+  for(let i=0;i<8;i++) id+=chars[Math.floor(Math.random()*chars.length)];
   document.getElementById('generatedVoterId').textContent=id;
   return id;
 }
@@ -2327,7 +2415,7 @@ function renderIdCards(){
 
 function printIdCards(){
   const voters=STATE.voters;
-  if(!voters.length){ showToast('No Voters','No voters registered to print.','error'); return; }
+  if(!voters.length){ alert('No voters to print.'); return; }
   const w=window.open('','_blank','width=900,height=700');
   w.document.write(`<!DOCTYPE html><html><head><title>VisionVote ID Cards</title>
   <style>
@@ -2370,14 +2458,8 @@ function printIdCards(){
   </body></html>`);
   w.document.close();
 }
-async function deleteVoter(id){
-  const v = STATE.voters.find(x=>x.id===id);
-  const ok = await showConfirm({
-    title:'Delete Voter?',
-    msg: v ? `Remove "${v.name}" (${v.voterId}) from the registry? This cannot be undone.` : 'Delete this voter? This cannot be undone.',
-    icon:'🗑️', okLabel:'Delete', danger:true
-  });
-  if(!ok) return;
+function deleteVoter(id){
+  if(!confirm('Delete this voter? This cannot be undone.')) return;
   STATE.voters=STATE.voters.filter(v=>v.id!==id);
   saveState(); renderVoterTable(); renderIdCards();
   showToast('Deleted','Voter removed.','info');
@@ -2699,8 +2781,15 @@ function castVote(candId){
   sendBleCommand('VOTE_CAST');
   spawnConfetti();
 
-  // Show full-screen vote cast popup
-  showVoteCastPopup(currentVoter.name, cand.name, cand.party);
+  // Show inline thank-you message — no browser popup
+  const thankDiv=document.getElementById('voteVoterPreview');
+  thankDiv.innerHTML=`<div style="text-align:center;padding:20px 10px">
+    <div style="font-size:28px;margin-bottom:8px">🎉</div>
+    <div style="font-size:17px;font-weight:800;color:var(--cel2);margin-bottom:6px">Thank you, ${currentVoter.name}!</div>
+    <div style="font-size:13px;font-weight:600;color:var(--orange);margin-bottom:4px">Voted for: ${cand.name} (${cand.party})</div>
+    <div style="font-size:13px;color:rgba(26,5,8,.55);font-weight:600">You are a great citizen! 🗳️</div>
+    <div style="margin-top:10px;font-size:11px;color:rgba(26,5,8,.35)">Returning to gate entry…</div>
+  </div>`;
 
   // Clear cameras & previous face data immediately
   closeVoteCam();
@@ -2708,24 +2797,24 @@ function castVote(candId){
   const ctx2=cvs.getContext('2d');
   ctx2.clearRect(0,0,cvs.width,cvs.height);
 
+  const voterName=currentVoter.name;
   currentVoter=null; voterFaceVerified=false;
 
   // Re-lock Cast Vote tab
   const lockEl2=document.getElementById('voteTabLock');
   if(lockEl2){ lockEl2.textContent='🔒 Verify First'; lockEl2.style.color='rgba(26,5,8,.4)'; }
 
-  // Auto-redirect to gate entry after 7 seconds (popup handles countdown)
+  // Auto-redirect to gate entry after 3 seconds
   setTimeout(()=>{
-    // Hide popup
-    document.getElementById('voteCastPopup').classList.remove('show');
-    document.getElementById('voteCastOverlay').classList.remove('show');
     // Full reset of vote section
     document.getElementById('openVoteCamBtn').disabled=true;
     document.getElementById('voteVoterPreview').textContent='Complete Gate Entry first to load your voter profile.';
     document.getElementById('faceVerifyStatus').textContent='Complete gate entry and then verify your face to vote.';
     document.getElementById('voteStep2').classList.remove('verified');
     document.getElementById('voteLockedBadge').style.display='';
+    // Clear candidate slides (no stale voter context)
     renderVoteCandidates();
+    // Close any open thank-you overlay (legacy safety)
     document.getElementById('thankYouOverlay').classList.add('hidden');
     // Switch to gate entry tab
     document.querySelectorAll('.mode-panel').forEach(p=>p.classList.remove('active'));
@@ -2733,44 +2822,14 @@ function castVote(candId){
     document.getElementById('mpGate').classList.add('active');
     document.getElementById('mtGate').classList.add('active');
     document.getElementById('gateIdInput').value='';
+    // Reset gate status
     const statusMsg=document.getElementById('gateStatusMsg');
     if(statusMsg){ statusMsg.className='gate-status-msg idle'; statusMsg.textContent='Enter a Voter ID to verify.'; }
-    const gateViz=document.getElementById('gateVisual');
+    const gateViz=document.getElementById('gateViz');
     if(gateViz){ gateViz.className='gate-visual'; gateViz.textContent='🚪'; }
     setLedGreen(false); setLedRed(false);
     setOled('VisionVote\nReady');
-  }, 7000);
-}
-
-function showVoteCastPopup(voterName, candName, candParty){
-  document.getElementById('vcpVoterName').textContent = voterName + ' — your voice counts!';
-  document.getElementById('vcpCandName').textContent = candName;
-  document.getElementById('vcpCandParty').textContent = candParty;
-  // Reset & restart timer circle animation
-  const circle = document.getElementById('vcpTimerCircle');
-  circle.style.animation = 'none';
-  void circle.offsetWidth; // reflow
-  circle.style.animation = 'countdownRing 7s linear forwards';
-  // Countdown number
-  let secs = 7;
-  document.getElementById('vcpCountdown').textContent = secs;
-  const tick = setInterval(()=>{
-    secs--;
-    const el = document.getElementById('vcpCountdown');
-    if(el) el.textContent = secs;
-    if(secs <= 0) clearInterval(tick);
-  }, 1000);
-  // Confetti inside popup
-  const area = document.getElementById('vcpConfetti');
-  area.innerHTML = '';
-  const cols = ['#ffcb56','#ffa259','#ff7e7e','#a9e5bb','#dd2d4a','#5da271'];
-  for(let i=0;i<22;i++){
-    const d=document.createElement('div');
-    d.style.cssText=`position:absolute;width:7px;height:7px;border-radius:2px;background:${cols[i%cols.length]};left:${Math.random()*92+4}%;top:-8px;animation:confetti ${.7+Math.random()*.8}s ease ${i*.05}s forwards`;
-    area.appendChild(d);
-  }
-  document.getElementById('voteCastOverlay').classList.add('show');
-  document.getElementById('voteCastPopup').classList.add('show');
+  }, 3000);
 }
 function closeThankYou(){ document.getElementById('thankYouOverlay').classList.add('hidden'); }
 
@@ -2837,13 +2896,8 @@ function declareResults(){
   </div>`;
   showToast('Results Declared','Winner: '+winner.name+'!','success');
 }
-async function resetVotes(){
-  const ok = await showConfirm({
-    title:'Reset All Votes?',
-    msg:'This will clear every vote and reset all voter statuses. The entire election will be wiped. This cannot be undone.',
-    icon:'⚠️', okLabel:'Reset Everything', danger:true
-  });
-  if(!ok) return;
+function resetVotes(){
+  if(!confirm('Reset all votes? This will clear the entire election.')) return;
   STATE.candidates.forEach(c=>c.votes=0);
   STATE.voters.forEach(v=>{v.hasVoted=false;v.votedFor=null;});
   STATE.attendanceLog=[];STATE.voteTimeline=[];
@@ -2869,41 +2923,7 @@ function renderAttendance(){
       <td><span style="padding:2px 8px;border-radius:50px;font-size:10.5px;font-weight:700;background:${l.gender==='Female'?'rgba(221,45,74,.15)':'rgba(93,162,113,.15)'};color:${l.gender==='Female'?'#ff8fa3':'var(--cel2)'}">${l.gender}</span></td>
       <td style="font-family:'Orbitron',monospace;font-size:11.5px">${l.time}</td>
       <td>${l.date}</td>
-      <td><button class="btn-danger" style="padding:3px 10px;font-size:11px" onclick="deleteAttendanceRow(${i})">🗑️ Delete</button></td>
     </tr>`).join('');
-}
-async function deleteAttendanceRow(idx){
-  const rec = STATE.attendanceLog[idx];
-  const ok = await showConfirm({
-    title:'Delete Record?',
-    msg: rec ? `Remove attendance entry for "${rec.voterName}" who voted for ${rec.votedFor}? Their vote count and voter status will be reversed.` : 'Delete this attendance record?',
-    icon:'🗑️', okLabel:'Delete', danger:true
-  });
-  if(!ok) return;
-  if(rec){
-    const v = STATE.voters.find(v=>v.voterId===rec.voterId);
-    if(v){ v.hasVoted=false; v.votedFor=null; }
-    const c = STATE.candidates.find(c=>c.name===rec.votedFor);
-    if(c && c.votes>0) c.votes--;
-    STATE.voteTimeline = STATE.voteTimeline.filter((_,i)=>i!==idx);
-    STATE.attendanceLog.splice(idx,1);
-  }
-  saveState(); renderAttendance();
-  showToast('Deleted','Attendance record removed.','info');
-}
-async function deleteAttendanceLog(){
-  const ok = await showConfirm({
-    title:'Delete All Records?',
-    msg:'This will erase every attendance record, reset all vote counts, and unmark all voters. This cannot be undone.',
-    icon:'🚨', okLabel:'Delete All', danger:true
-  });
-  if(!ok) return;
-  STATE.attendanceLog=[];
-  STATE.voteTimeline=[];
-  STATE.candidates.forEach(c=>c.votes=0);
-  STATE.voters.forEach(v=>{v.hasVoted=false;v.votedFor=null;});
-  saveState(); renderAttendance();
-  showToast('Cleared','All attendance records deleted.','info');
 }
 function exportLog(){
   const rows=[['#','Name','Voter ID','Voted For','Gender','Time','Date'],...STATE.attendanceLog.map((l,i)=>[i+1,l.voterName,l.voterId,l.votedFor,l.gender,l.time,l.date])];
@@ -3035,26 +3055,6 @@ function testOpen(){ sendBleCommand('TEST_OPEN'); setOled('GATE OPEN'); setLedGr
 function testClose(){ sendBleCommand('TEST_CLOSE'); setOled('GATE CLOSED'); }
 
 // ════════════════════════════════════
-//  CUSTOM CONFIRM DIALOG
-// ════════════════════════════════════
-let confirmResolve = null;
-function showConfirm({ title='Are you sure?', msg='', icon='⚠️', okLabel='Confirm', danger=false }){
-  return new Promise(resolve => {
-    confirmResolve = (result) => {
-      document.getElementById('confirmOverlay').classList.remove('show');
-      confirmResolve = null;
-      resolve(result);
-    };
-    document.getElementById('confirmIcon').textContent  = icon;
-    document.getElementById('confirmTitle').textContent = title;
-    document.getElementById('confirmMsg').textContent   = msg;
-    document.getElementById('confirmOk').textContent    = okLabel;
-    document.getElementById('confirmOk').className      = 'confirm-ok' + (danger ? ' danger' : '');
-    document.getElementById('confirmOverlay').classList.add('show');
-  });
-}
-
-// ════════════════════════════════════
 //  BLE (Web Bluetooth)
 // ════════════════════════════════════
 const BLE_SERVICE_UUID='12345678-1234-1234-1234-123456789012';
@@ -3135,13 +3135,8 @@ async function sendBleCommand(cmd){
 // ════════════════════════════════════
 //  SESSION
 // ════════════════════════════════════
-async function endSession(){
-  const ok = await showConfirm({
-    title:'End Session?',
-    msg:'All voters, candidates, votes, and attendance records will be cleared from this device. This cannot be undone.',
-    icon:'⏹️', okLabel:'End Session', danger:true
-  });
-  if(!ok) return;
+function endSession(){
+  if(!confirm('End this session? All data will be cleared from this device.')) return;
   sessionStorage.removeItem(SESSION_KEY);
   STATE=defaultState();
   adminUnlocked=false;currentVoter=null;voterFaceVerified=false;
