@@ -1529,7 +1529,7 @@ footer{
         <div class="gate-visual" id="gateVisual">🚪</div>
         <div style="width:100%">
           <div style="font-size:12px;font-weight:700;color:rgba(42,24,0,.45);text-align:center;margin-bottom:10px;letter-spacing:1px">ENTER VOTER ID</div>
-          <input type="text" id="gateIdInput" class="gate-id-input" placeholder="CSEVM-00001" maxlength="12" onkeyup="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkGateEntry()"/>
+          <input type="text" id="gateIdInput" class="gate-id-input" placeholder="CSEVM-*****" maxlength="12" onkeyup="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkGateEntry()"/>
         </div>
         <button class="btn-primary" style="width:100%;padding:14px" onclick="checkGateEntry()">🔍 Verify & Open Gate</button>
         <div class="gate-status-msg idle" id="gateStatusMsg">Enter your Voter ID and press Verify.</div>
